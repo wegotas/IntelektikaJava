@@ -5,8 +5,11 @@
  */
 package intelektikajava;
 
+import other.*;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import java.awt.*;
 
 /**
  *
@@ -38,6 +41,8 @@ public class GUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,14 +72,18 @@ public class GUI extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        jLabel5.setText("jLabel5");
+
+        jLabel6.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -85,19 +94,22 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 152, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(162, 162, 162))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel4)
-                                .addGap(130, 130, 130))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(196, 196, 196))
+                                .addGap(101, 101, 101))))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(162, 162, 162)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 162, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,23 +123,98 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addGap(65, 65, 65)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(86, 86, 86))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel5)))
+                        .addContainerGap())))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    String galimosRaides = "aąbcčdeęėfghiįyjklmnoprsštuūųvzž";
+    private Boolean tikrintiZodi(String tekstas)
+    {
+        Boolean leista = false;
+        for(char c : tekstas.toCharArray())
+        {
+            leista = false;
+            for(char raide : galimosRaides.toCharArray())
+            {
+                if (c == raide || c == Character.toUpperCase(raide))
+                {
+                   leista = true; break;
+                }
+            }
+            if (!leista) break;
+        }
+        return leista;
+    }
+    
+    Boolean zaidimas = false;
+    Boolean sustabdyta = false;
+    int busena = 3;
+    int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        ImageIcon imgIcon = new ImageIcon("../slamstas/Homer_simpsondoh.png");
-        Image img = imgIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        if(jButton1.getText().equals("Atšaukti"))
+	{
+            jButton1.setText("Pradėti");
+            sustabdyta = true;
+        }
+        else
+        {
+            if(tikrintiZodi(jTextField1.getText()) && jTextField1.getText().length() > 1) //input apribojimai
+            {
+		jButton1.setText("Atšaukti");
+		sustabdyta = false;
+                //padaryti kazka su animacijom
+		Zodis zodis = new Zodis(jTextField1.getText().toLowerCase());
+		jTextField2.setText(zodis.Atvaizdavimas());
+		zaidimas = true;
+		gyvybes = 50;
+		jLabel3.setText(Integer.toString(gyvybes));               
+            }
+        }
+        ImageIcon imgIcon = new ImageIcon("../slamstas/ajax-loader.gif");
+        Image img = imgIcon.getImage().getScaledInstance(42, 42, Image.SCALE_SMOOTH);
         jLabel4.setIcon(new ImageIcon(img));
-        //jLabel4.setIcon(new javax.swing.ImageIcon("../slamstas/Homer_simpsondoh.png"));
-
+        //jLabel4.setVisible(false);
+                
+        ImageIcon homerThinking = new ImageIcon("../slamstas/homer_simpson_thinking.png");
+        Image homerDrinking = homerThinking.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        jLabel5.setIcon(new ImageIcon(homerDrinking));
+        //jLabel5.setVisible(false);
+        
+        ImageIcon homerWasRight = new ImageIcon("../slamstas/Homer_simpsonwoohooo.gif");
+        Image homerWoohoo = homerWasRight.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        jLabel5.setIcon(new ImageIcon(homerWoohoo));
+        //jLabel5.setVisible(false);
+        
+        ImageIcon homerWasWrong = new ImageIcon("../slamstas/Homer_simpsondoh.png");
+        Image homerDoh = homerWasWrong.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        jLabel5.setIcon(new ImageIcon(homerDoh));
+        //jLabel5.setVisible(false);
+                
+        ImageIcon homerHasDoneHisJob = new ImageIcon("../slamstas/sleeping.png");
+        Image homerIsSleeping = homerHasDoneHisJob.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        jLabel5.setIcon(new ImageIcon(homerIsSleeping));
+        //jLabel5.setVisible(false);    
+        
+//        ImageIcon Zzz = new ImageIcon("../slamstas/Zzz.gif");
+//        Image Z = Zzz.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+//        jLabel5.setIcon(new ImageIcon(Z));
+        //jLabel5.setVisible(false);
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -171,6 +258,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
