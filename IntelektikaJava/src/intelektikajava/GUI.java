@@ -16,12 +16,22 @@ import java.awt.*;
  * @author pgrig
  */
 public class GUI extends javax.swing.JFrame {
-
+    
+    Speliotojas speliotojas = new Speliotojas();
+    
     /**
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();
+        initComponents();        
+    }
+    
+    public void pradeti(Zodis zodis){
+        while (zaidimas)
+        {
+            speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
+            System.out.println("Veikia gijos");
+        }
     }
 
     /**

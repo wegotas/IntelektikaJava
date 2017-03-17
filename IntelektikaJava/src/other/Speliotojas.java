@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Wegis
  */
-public final class Speliotojas {
+public class Speliotojas {
 
     private boolean taisykleNr1 = true;
     private boolean taisykleNr2 = true;
@@ -32,23 +32,16 @@ public final class Speliotojas {
             = new ArrayList<String>();
     
     Connection conn;
-
-    public Speliotojas(String spejamasZodis) {
-        this.spejamasZodis = spejamasZodis;
-        //cia turetu buti kreipimasis i duombaze uzpildyti galimiVariantai
-        taisykleNr1 = true;
-        taisykleNr2 = true;
-        taisykleNr3 = true;
-        atspetos_raides = new ArrayList<Character>();
-        neatspetos_raides = new ArrayList<Character>();
-    }
+/*
+    public Speliotojas() {
+    }*/
 
     
     
     /**
      * Neuzbaigtas pustustis metodas (in-development)
      */
-    /*
+    
     public void Pazadinti(String zodis) {
         spejamasZodis = zodis;
 
@@ -57,7 +50,7 @@ public final class Speliotojas {
         taisykleNr3 = true;
         atspetos_raides = new ArrayList<Character>();
         neatspetos_raides = new ArrayList<Character>();
-    }*/
+    }
 
     /**
      * Sitas metodas gali ir neveikti (in-development)
