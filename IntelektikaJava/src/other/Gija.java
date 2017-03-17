@@ -5,6 +5,8 @@
  */
 package other;
 import intelektikajava.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,10 +25,16 @@ public class Gija implements Runnable {
     
     @Override
     public void run() {
-        while (GUI.zaidimas)
-        {
+        try {
+            GUI.pradeti(zodis);
+            /*
+            while (GUI.zaidimas)
+            {
             GUI.speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             System.out.println("Veikia gijos");
+            }*/
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Gija.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

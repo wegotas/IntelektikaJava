@@ -30,17 +30,17 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();        
     }
-    
-    /*
-    public static void pradeti(Zodis zodis){
+   
+    public static void pradeti(Zodis zodis) throws InterruptedException{
         //zaidimas = true;
         while (zaidimas)
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             System.out.println("Veikia gijos");
+            Thread.sleep(100);
         }        
-    }*/
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,11 +63,6 @@ public class GUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         jLabel1.setText("Žodis:");
 
@@ -324,14 +319,8 @@ public class GUI extends javax.swing.JFrame {
                 jLabel5.setIcon(new ImageIcon(homerIsSleeping));
             }
         }
-        catch(Exception ex) { }
-    }
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
-        zaidimas = false;
-        gija.stop();
-        System.err.println("formWindowClosing");
-    }//GEN-LAST:event_formWindowClosing
+        catch(Exception ex) { }                                  
+    }                                  
 
     /**
      * @param args the command line arguments
