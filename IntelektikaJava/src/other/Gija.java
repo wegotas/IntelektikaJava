@@ -12,8 +12,25 @@ import intelektikajava.*;
  */
 public class Gija implements Runnable {
 
+    private Thread gija;
+    Zodis zodis;
+    
+    public void start(Zodis zodis) {
+        this.zodis = zodis;
+        gija = new Thread(this);
+        gija.start();
+    }
+    
     @Override
     public void run() {
-        GUI.pradeti(new Zodis("Žodis"));
+        while (GUI.zaidimas)
+        {
+            GUI.speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
+            System.out.println("Veikia gijos");
+        }
     }
+    
+     public void stop() {
+        gija = null;
+     }
 }
