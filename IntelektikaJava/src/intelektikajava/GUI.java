@@ -16,12 +16,22 @@ import java.awt.*;
  * @author pgrig
  */
 public class GUI extends javax.swing.JFrame {
-
+    
+    Speliotojas speliotojas = new Speliotojas();
+    
     /**
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();
+        initComponents();        
+    }
+    
+    public void pradeti(Zodis zodis){
+        while (zaidimas)
+        {
+            speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
+            System.out.println("Veikia gijos");
+        }
     }
 
     /**
@@ -165,6 +175,7 @@ public class GUI extends javax.swing.JFrame {
     int busena = 3;
     int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         if(jButton1.getText().equals("Atšaukti"))
 	{
             jButton1.setText("Pradėti");
@@ -181,8 +192,8 @@ public class GUI extends javax.swing.JFrame {
 		jTextField2.setText(zodis.Atvaizdavimas());
 		zaidimas = true;
 		gyvybes = 50;
-		jLabel3.setText(Integer.toString(gyvybes));
-		//Speliotojas.Pazadinti(zodis.pasleptasZodis);
+		jLabel3.setText(Integer.toString(gyvybes));		
+                speliotojas.Pazadinti(jButton1.getText());
 		//Task zaisti = new Task(() => pradeti(zodis));
 		//Thread.Sleep(50);
 		//zaisti.Start();

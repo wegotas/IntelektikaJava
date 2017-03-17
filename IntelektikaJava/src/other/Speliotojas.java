@@ -18,7 +18,7 @@ import com.microsoft.sqlserver.jdbc.*;
  *
  * @author Wegis
  */
-public final class Speliotojas {
+public class Speliotojas {
 
     private boolean taisykleNr1 = true;
     private boolean taisykleNr2 = true;
@@ -26,27 +26,19 @@ public final class Speliotojas {
     private ArrayList<Character> atspetos_raides;
     private ArrayList<Character> neatspetos_raides;
     private String spejamasZodis;
-    private ArrayList<String> galimiVariantai
-            = new ArrayList<String>();
+    private ArrayList<String> galimiVariantai;
     
     Connection conn;
+/*
+    public Speliotojas() {
+    }*/
 
-    public Speliotojas(String spejamasZodis) {
+    public ResultSet KreiptisDuombazen(String uzklausa){
         try {
             this.conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
         } catch (SQLException ex) {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.spejamasZodis = spejamasZodis;
-        //cia turetu buti kreipimasis i duombaze uzpildyti galimiVariantai
-        taisykleNr1 = true;
-        taisykleNr2 = true;
-        taisykleNr3 = true;
-        atspetos_raides = new ArrayList<Character>();
-        neatspetos_raides = new ArrayList<Character>();
-    }
-
-    private ResultSet KreiptisDuombazen(String uzklausa){
         Statement st;
         ResultSet rs = null;
         try {
@@ -62,16 +54,25 @@ public final class Speliotojas {
     /**
      * Neuzbaigtas pustustis metodas (in-development)
      */
-    /*
+    
     public void Pazadinti(String zodis) {
-        spejamasZodis = zodis;
-
+        spejamasZodis = zodis;   
+        galimiVariantai = new ArrayList<String>();
+        ResultSet rs = KreiptisDuombazen("select * from Zodziai");
+        try {
+            while (rs.next()) {
+                galimiVariantai.add(rs.getString("Zodis"));
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         taisykleNr1 = true;
         taisykleNr2 = true;
         taisykleNr3 = true;
         atspetos_raides = new ArrayList<Character>();
         neatspetos_raides = new ArrayList<Character>();
-    }*/
+    }
 
     /**
      * Sitas metodas gali ir neveikti (in-development)
