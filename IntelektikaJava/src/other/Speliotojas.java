@@ -24,9 +24,22 @@ public final class Speliotojas {
     private ArrayList<String> galimiVariantai
             = new ArrayList<String>();
 
+    public Speliotojas(String spejamasZodis) {
+        this.spejamasZodis = spejamasZodis;
+        //cia turetu buti kreipimasis i duombaze uzpildyti galimiVariantai
+        taisykleNr1 = true;
+        taisykleNr2 = true;
+        taisykleNr3 = true;
+        atspetos_raides = new ArrayList<Character>();
+        neatspetos_raides = new ArrayList<Character>();
+    }
+
+    
+    
     /**
      * Neuzbaigtas pustustis metodas (in-development)
      */
+    /*
     public void Pazadinti(String zodis) {
         spejamasZodis = zodis;
 
@@ -35,7 +48,7 @@ public final class Speliotojas {
         taisykleNr3 = true;
         atspetos_raides = new ArrayList<Character>();
         neatspetos_raides = new ArrayList<Character>();
-    }
+    }*/
 
     /**
      * Sitas metodas gali ir neveikti (in-development)
