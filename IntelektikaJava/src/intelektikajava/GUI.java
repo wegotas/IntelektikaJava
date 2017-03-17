@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class GUI extends javax.swing.JFrame {
     
+    static Zodis zodis;
     public static Speliotojas speliotojas = new Speliotojas();
     Gija gija = new Gija();
     
