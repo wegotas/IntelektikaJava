@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +19,8 @@ import java.awt.*;
  */
 public class GUI extends javax.swing.JFrame {
     
-    static Speliotojas speliotojas = new Speliotojas();
+    public static Speliotojas speliotojas = new Speliotojas();
+    Gija gija = new Gija();
     
     /**
      * Creates new form GUI
@@ -25,15 +28,15 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();        
     }
-    
+    /*
     public static void pradeti(Zodis zodis){
-        zaidimas = true;
+        //zaidimas = true;
         while (zaidimas)
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             System.out.println("Veikia gijos");
-        }
-    }
+        }        
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +59,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Žodis:");
 
@@ -171,12 +179,12 @@ public class GUI extends javax.swing.JFrame {
         return leista;
     }
     
-    static Boolean zaidimas = false;
+    public static Boolean zaidimas = false;
     Boolean sustabdyta = false;
     int busena = 3;
     int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        (new Gija()).run();
+        
         
         if(jButton1.getText().equals("Atšaukti"))
 	{
@@ -196,7 +204,7 @@ public class GUI extends javax.swing.JFrame {
 		gyvybes = 50;
 		jLabel3.setText(Integer.toString(gyvybes));		
                 speliotojas.Pazadinti(jButton1.getText());
-		//Task zaisti = new Task(() => pradeti(zodis));
+                gija.start(zodis);//Task zaisti = new Task(() => pradeti(zodis));
 		//Thread.Sleep(50);
 		//zaisti.Start();
             }
@@ -234,6 +242,13 @@ public class GUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        zaidimas = false;
+        gija.stop();
+        System.err.println("formWindowClosing");
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -268,7 +283,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
