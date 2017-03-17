@@ -5,16 +5,14 @@
  */
 package other;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.microsoft.sqlserver.jdbc.*;  
 
 /**
  *
@@ -34,6 +32,11 @@ public final class Speliotojas {
     Connection conn;
 
     public Speliotojas(String spejamasZodis) {
+        try {
+            this.conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.spejamasZodis = spejamasZodis;
         //cia turetu buti kreipimasis i duombaze uzpildyti galimiVariantai
         taisykleNr1 = true;
@@ -43,7 +46,18 @@ public final class Speliotojas {
         neatspetos_raides = new ArrayList<Character>();
     }
 
-    
+    private ResultSet KreiptisDuombazen(String uzklausa){
+        Statement st;
+        ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(uzklausa);
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rs;
+    }
     
     /**
      * Neuzbaigtas pustustis metodas (in-development)
