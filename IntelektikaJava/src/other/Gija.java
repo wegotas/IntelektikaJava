@@ -14,6 +14,6 @@ public class Gija implements Runnable {
 
     @Override
     public void run() {
-        //GUI.pradeti(new Zodis("Žodis"));
+        GUI.pradeti(new Zodis("Žodis"));
     }
 }
