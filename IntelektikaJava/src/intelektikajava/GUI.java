@@ -29,15 +29,16 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();        
     }
-    /*
-    public static void pradeti(Zodis zodis){
+    
+    public static void pradeti(Zodis zodis) throws InterruptedException{
         //zaidimas = true;
         while (zaidimas)
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             System.out.println("Veikia gijos");
+            Thread.sleep(100);
         }        
-    }*/
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -12,7 +12,7 @@ import intelektikajava.*;
  */
 public class Gija implements Runnable {
 
-    private Thread gija;
+    public Thread gija;
     Zodis zodis;
     
     public void start(Zodis zodis) {
@@ -23,11 +23,13 @@ public class Gija implements Runnable {
     
     @Override
     public void run() {
+        GUI.pradeti(zodis);
+        /*
         while (GUI.zaidimas)
         {
             GUI.speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             System.out.println("Veikia gijos");
-        }
+        }*/
     }
     
      public void stop() {
