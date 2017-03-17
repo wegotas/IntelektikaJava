@@ -17,7 +17,7 @@ import java.awt.*;
  */
 public class GUI extends javax.swing.JFrame {
     
-    Speliotojas speliotojas = new Speliotojas();
+    static Speliotojas speliotojas = new Speliotojas();
     
     /**
      * Creates new form GUI
@@ -26,7 +26,8 @@ public class GUI extends javax.swing.JFrame {
         initComponents();        
     }
     
-    public void pradeti(Zodis zodis){
+    public static void pradeti(Zodis zodis){
+        zaidimas = true;
         while (zaidimas)
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
@@ -170,11 +171,12 @@ public class GUI extends javax.swing.JFrame {
         return leista;
     }
     
-    Boolean zaidimas = false;
+    static Boolean zaidimas = false;
     Boolean sustabdyta = false;
     int busena = 3;
     int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        (new Gija()).run();
         
         if(jButton1.getText().equals("Atšaukti"))
 	{
