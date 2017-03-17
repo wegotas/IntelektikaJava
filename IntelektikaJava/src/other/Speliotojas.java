@@ -33,9 +33,22 @@ public final class Speliotojas {
     
     Connection conn;
 
+    public Speliotojas(String spejamasZodis) {
+        this.spejamasZodis = spejamasZodis;
+        //cia turetu buti kreipimasis i duombaze uzpildyti galimiVariantai
+        taisykleNr1 = true;
+        taisykleNr2 = true;
+        taisykleNr3 = true;
+        atspetos_raides = new ArrayList<Character>();
+        neatspetos_raides = new ArrayList<Character>();
+    }
+
+    
+    
     /**
      * Neuzbaigtas pustustis metodas (in-development)
      */
+    /*
     public void Pazadinti(String zodis) {
         spejamasZodis = zodis;
 
@@ -44,30 +57,8 @@ public final class Speliotojas {
         taisykleNr3 = true;
         atspetos_raides = new ArrayList<Character>();
         neatspetos_raides = new ArrayList<Character>();
-    }
-    
-        
-    /**
-     * Neuzbaigtas pustustis metodas (in-development)
-     */
-    private List<String> KreiptisDuombazen(String uzklausa)
-    {
-        List<String> duomenys = new ArrayList<String>();
-        
-        Statement stmt;
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(uzklausa);
-            while (rs.next()) {
-                duomenys.add(rs.getString("Pavadinimas"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return duomenys;
-    }
-    
+    }*/
+
     /**
      * Sitas metodas gali ir neveikti (in-development)
      */
