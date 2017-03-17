@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.*;
+import java.lang.reflect.*;
 
 /**
  *
@@ -18,6 +19,7 @@ import java.awt.*;
 public class GUI extends javax.swing.JFrame {
     
     static Speliotojas speliotojas = new Speliotojas();
+    static Zodis zodis;
     
     /**
      * Creates new form GUI
@@ -26,11 +28,11 @@ public class GUI extends javax.swing.JFrame {
         initComponents();        
     }
     
-    public static void pradeti(Zodis zodis){
-        zaidimas = true;
+    public static void pradeti() throws InterruptedException{
         while (zaidimas)
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
+            apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             System.out.println("Veikia gijos");
         }
     }
@@ -62,6 +64,8 @@ public class GUI extends javax.swing.JFrame {
         jLabel2.setText("Gyvybės:");
 
         jLabel3.setText("5");
+
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel4.setText("jLabel4");
 
@@ -172,12 +176,11 @@ public class GUI extends javax.swing.JFrame {
     }
     
     static Boolean zaidimas = false;
-    Boolean sustabdyta = false;
-    int busena = 3;
-    int gyvybes;
+    static Boolean sustabdyta = false;
+    static int busena = 3;
+    static int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        (new Gija()).run();
-        
+                
         if(jButton1.getText().equals("Atšaukti"))
 	{
             jButton1.setText("Pradėti");
@@ -190,40 +193,17 @@ public class GUI extends javax.swing.JFrame {
 		jButton1.setText("Atšaukti");
 		sustabdyta = false;
                 //padaryti kazka su animacijom
-		Zodis zodis = new Zodis(jTextField1.getText().toLowerCase());
+		zodis = new Zodis(jTextField1.getText().toLowerCase());
 		jTextField2.setText(zodis.Atvaizdavimas());
 		zaidimas = true;
-		gyvybes = 50;
+		gyvybes = 6;
 		jLabel3.setText(Integer.toString(gyvybes));		
                 speliotojas.Pazadinti(jButton1.getText());
-		//Task zaisti = new Task(() => pradeti(zodis));
-		//Thread.Sleep(50);
-		//zaisti.Start();
+                (new Gija()).run();
             }
         }
-        ImageIcon imgIcon = new ImageIcon("../slamstas/ajax-loader.gif");
-        Image img = imgIcon.getImage().getScaledInstance(42, 42, Image.SCALE_SMOOTH);
-        jLabel4.setIcon(new ImageIcon(img));
-        //jLabel4.setVisible(false);
-                
-        ImageIcon homerThinking = new ImageIcon("../slamstas/homer_simpson_thinking.png");
-        Image homerDrinking = homerThinking.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        jLabel5.setIcon(new ImageIcon(homerDrinking));
-        //jLabel5.setVisible(false);
         
-        ImageIcon homerWasRight = new ImageIcon("../slamstas/Homer_simpsonwoohooo.gif");
-        Image homerWoohoo = homerWasRight.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        jLabel5.setIcon(new ImageIcon(homerWoohoo));
-        //jLabel5.setVisible(false);
-        
-        ImageIcon homerWasWrong = new ImageIcon("../slamstas/Homer_simpsondoh.png");
-        Image homerDoh = homerWasWrong.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        jLabel5.setIcon(new ImageIcon(homerDoh));
-        //jLabel5.setVisible(false);
                 
-        ImageIcon homerHasDoneHisJob = new ImageIcon("../slamstas/sleeping.png");
-        Image homerIsSleeping = homerHasDoneHisJob.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        jLabel5.setIcon(new ImageIcon(homerIsSleeping));
         //jLabel5.setVisible(false);    
         
 //        ImageIcon Zzz = new ImageIcon("../slamstas/Zzz.gif");
@@ -234,6 +214,113 @@ public class GUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException{
+        
+        busena = 0;
+        Thread.sleep(500);
+        if (!sustabdyta)
+            {
+                if (zodis.Spejimas(spejimas))
+                {
+//                      EventQueue.invokeLater(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                          jTextField2.setText(zodis.Atvaizdavimas());
+//                        }
+//                      });
+                      
+                    jTextField2.setText(zodis.Atvaizdavimas());
+                    //output for log
+                    if (!zodis.ArAtspejoZodi())
+                    {
+                        busena = 1;
+                        animacija();
+                        speliotojas.RaidesAtspejimoSekme(true, spejimas);
+                    }
+                    else //zaidimas baigtas, AI laimejo
+                    {
+                        //output for log
+                        busena = 3;
+                        animacija();
+                        zaidimas = false;
+                        jButton1.setText("Pradėti");
+                        Speliotojas.GautAtsakyma(true, zodis.GautiZodi());
+                        //ideti animacija, ar kaip kitaip atvaizduoti pergale
+                    }
+                }
+                else
+                {
+                    gyvybes--;
+                    jLabel3.setText(Integer.toString(gyvybes));
+                    //output for log
+                    if (gyvybes != 0) 
+                    {
+                        busena = 2;
+                        animacija();
+                        speliotojas.RaidesAtspejimoSekme(false, spejimas);
+                    }
+                    else //zaidimas baigtas - AI pralaimejo
+                    {
+                        
+                        //output for log
+                        busena = 3;
+                        animacija();
+                        zaidimas = false;
+                        jButton1.setText("Pradėti");
+                        Speliotojas.GautAtsakyma(false, zodis.GautiZodi());
+                        //ideti animacija, ar kaip kitaip atvaizduoti pralaimejima
+                    }
+                }
+                Thread.sleep(500);
+                //Thread.Sleep(1000);// atspejo/neatspejo animacijai isskirtas laikas
+            }
+            else
+            {
+                busena = 3;
+                animacija();
+                zaidimas = false;
+            }
+    }
+    
+    private static void animacija()
+    {
+        try
+        {
+            if (busena == 0) //galvoja
+            {
+                ImageIcon imgIcon = new ImageIcon("../slamstas/ajax-loader.gif");
+                //Image img = imgIcon.getImage().getScaledInstance(42, 42, Image.SCALE_SMOOTH);
+                jLabel4.setIcon(imgIcon);
+                //jLabel4.setVisible(false);
+                
+                ImageIcon homerThinking = new ImageIcon("../slamstas/homer_simpson_thinking.png");
+                Image homerDrinking = homerThinking.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                jLabel5.setIcon(new ImageIcon(homerDrinking));
+                //jLabel5.setVisible(false);
+            }
+            else if (busena == 1) //atspejo
+            {        
+                ImageIcon homerWasRight = new ImageIcon("../slamstas/Homer_simpsonwoohooo.gif");
+                Image homerWoohoo = homerWasRight.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                jLabel5.setIcon(new ImageIcon(homerWoohoo));
+                //jLabel5.setVisible(false);
+            }
+            else if (busena == 2) //neatspejo
+            {
+                ImageIcon homerWasWrong = new ImageIcon("../slamstas/Homer_simpsondoh.png");
+                Image homerDoh = homerWasWrong.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                jLabel5.setIcon(new ImageIcon(homerDoh));
+                //jLabel5.setVisible(false);
+            }
+            else //laukia
+            {                
+                ImageIcon homerHasDoneHisJob = new ImageIcon("../slamstas/sleeping.png");
+                Image homerIsSleeping = homerHasDoneHisJob.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                jLabel5.setIcon(new ImageIcon(homerIsSleeping));
+            }
+        }
+        catch(Exception ex) { }
+    }
     /**
      * @param args the command line arguments
      */
@@ -270,15 +357,15 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private static javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private static javax.swing.JLabel jLabel3;
+    private static javax.swing.JLabel jLabel4;
+    private static javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private static javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
