@@ -63,6 +63,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Žodis:");
 
@@ -321,6 +326,13 @@ public class GUI extends javax.swing.JFrame {
         }
         catch(Exception ex) { }                                  
     }                                  
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        zaidimas = false;
+        gija.stop();
+        System.err.println("formWindowClosing");
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
