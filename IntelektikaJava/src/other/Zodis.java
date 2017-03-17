@@ -28,6 +28,7 @@ public class Zodis{
     
     public Zodis(String zodis){
         this.zodis = zodis;
+        pasleptasZodis = "";
         for(Character c: zodis.toCharArray()){
             pasleptasZodis+="_";
             pasleptoZodzioRaidziuSarasas.add(c);

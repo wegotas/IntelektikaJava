@@ -181,7 +181,11 @@ public class GUI extends javax.swing.JFrame {
 		jTextField2.setText(zodis.Atvaizdavimas());
 		zaidimas = true;
 		gyvybes = 50;
-		jLabel3.setText(Integer.toString(gyvybes));               
+		jLabel3.setText(Integer.toString(gyvybes));
+		//Speliotojas.Pazadinti(zodis.pasleptasZodis);
+		//Task zaisti = new Task(() => pradeti(zodis));
+		//Thread.Sleep(50);
+		//zaisti.Start();
             }
         }
         ImageIcon imgIcon = new ImageIcon("../slamstas/ajax-loader.gif");

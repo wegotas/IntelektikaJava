@@ -5,9 +5,16 @@
  */
 package other;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,6 +30,8 @@ public final class Speliotojas {
     private String spejamasZodis;
     private ArrayList<String> galimiVariantai
             = new ArrayList<String>();
+    
+    Connection conn;
 
     /**
      * Neuzbaigtas pustustis metodas (in-development)
@@ -36,7 +45,29 @@ public final class Speliotojas {
         atspetos_raides = new ArrayList<Character>();
         neatspetos_raides = new ArrayList<Character>();
     }
-
+    
+        
+    /**
+     * Neuzbaigtas pustustis metodas (in-development)
+     */
+    private List<String> KreiptisDuombazen(String uzklausa)
+    {
+        List<String> duomenys = new ArrayList<String>();
+        
+        Statement stmt;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(uzklausa);
+            while (rs.next()) {
+                duomenys.add(rs.getString("Pavadinimas"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return duomenys;
+    }
+    
     /**
      * Sitas metodas gali ir neveikti (in-development)
      */
