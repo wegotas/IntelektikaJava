@@ -73,4 +73,8 @@ public class Zodis{
         }
         return false;
     }
+    
+    public String GautiZodi(){
+        return zodis;
+    }
 }

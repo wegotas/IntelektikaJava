@@ -12,7 +12,7 @@ import intelektikajava.*;
  */
 public class Gija implements Runnable {
 
-    private Thread gija;
+    public Thread gija;
     Zodis zodis;
     
     public void start(Zodis zodis) {

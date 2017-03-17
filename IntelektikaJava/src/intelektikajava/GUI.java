@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.*;
 import java.lang.reflect.*;
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,8 +20,9 @@ import java.lang.reflect.*;
  */
 public class GUI extends javax.swing.JFrame {
     
-    static Speliotojas speliotojas = new Speliotojas();
     static Zodis zodis;
+    public static Speliotojas speliotojas = new Speliotojas();
+    Gija gija = new Gija();
     
     /**
      * Creates new form GUI
@@ -28,14 +31,16 @@ public class GUI extends javax.swing.JFrame {
         initComponents();        
     }
     
-    public static void pradeti() throws InterruptedException{
+    /*
+    public static void pradeti(Zodis zodis){
+        //zaidimas = true;
         while (zaidimas)
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             System.out.println("Veikia gijos");
-        }
-    }
+        }        
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,6 +63,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Žodis:");
 
@@ -175,12 +185,12 @@ public class GUI extends javax.swing.JFrame {
         return leista;
     }
     
-    static Boolean zaidimas = false;
+    public static Boolean zaidimas = false;
     static Boolean sustabdyta = false;
     static int busena = 3;
     static int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                
+
         if(jButton1.getText().equals("Atšaukti"))
 	{
             jButton1.setText("Pradėti");
@@ -199,7 +209,10 @@ public class GUI extends javax.swing.JFrame {
 		gyvybes = 6;
 		jLabel3.setText(Integer.toString(gyvybes));		
                 speliotojas.Pazadinti(jButton1.getText());
-                (new Gija()).run();
+                gija.start(zodis);
+                //Task zaisti = new Task(() => pradeti(zodis));
+		//Thread.Sleep(50);
+		//zaisti.Start();
             }
         }
         
@@ -210,8 +223,6 @@ public class GUI extends javax.swing.JFrame {
 //        Image Z = Zzz.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 //        jLabel5.setIcon(new ImageIcon(Z));
         //jLabel5.setVisible(false);
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException{
@@ -222,12 +233,6 @@ public class GUI extends javax.swing.JFrame {
             {
                 if (zodis.Spejimas(spejimas))
                 {
-//                      EventQueue.invokeLater(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                          jTextField2.setText(zodis.Atvaizdavimas());
-//                        }
-//                      });
                       
                     jTextField2.setText(zodis.Atvaizdavimas());
                     //output for log
@@ -321,6 +326,13 @@ public class GUI extends javax.swing.JFrame {
         }
         catch(Exception ex) { }
     }
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        zaidimas = false;
+        gija.stop();
+        System.err.println("formWindowClosing");
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -355,7 +367,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
