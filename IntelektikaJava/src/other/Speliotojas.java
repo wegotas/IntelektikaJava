@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.microsoft.sqlserver.jdbc.*;
 
 /**
@@ -23,17 +25,16 @@ public class Speliotojas {
     private boolean taisykleNr1 = true;
     private boolean taisykleNr2 = true;
     private boolean taisykleNr3 = true;
-    private ArrayList<Character> atspetos_raides;
-    private ArrayList<Character> neatspetos_raides;
+    private List<Character> atspetos_raides;
+    private List<Character> neatspetos_raides;
     private String spejamasZodis;
-    private ArrayList<String> galimiVariantai;
+    private List<String> galimiVariantai;
 
     static Connection conn;
 
     /*
     public Speliotojas() {
     }*/
-
     private ResultSet KreiptisDuombazen(String uzklausa) {
         try {
             conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
@@ -94,8 +95,19 @@ public class Speliotojas {
      * Tuščias metodas (in-development)
      */
     public Character SpekRaide() {
-        //return TopRaide();
-        return TopXRaidziu();
+        if (taisykleNr1) {
+            return TopRaide();
+        } else if (taisykleNr2) {
+            char spejimas = IeskotiZodzioSuRegex();
+            if (spejimas != '*') {
+                return spejimas;
+            } else {
+                taisykleNr2 = false;
+                return TopXRaidziu();
+            }
+        } else {
+            return TopXRaidziu();
+        }
     }
 
     private String GautBandytosRaides() {
@@ -147,7 +159,50 @@ public class Speliotojas {
      * Tuščias metodas (in-development)
      */
     private char IeskotiZodzioSuRegex() {
-        return ' ';
+        List<String> atrinktiZodziai = new ArrayList<String>();
+        List<RaidesKiekis> RKlistas = new ArrayList<RaidesKiekis>();
+
+        String pattern = "";
+        for (char c : spejamasZodis.toCharArray()) {
+            if (c == '_') {
+                pattern += "[^" + GautBandytosRaides() + "]";
+            } else {
+                pattern += c;
+            }
+        }
+        Pattern regexPattern = Pattern.compile(pattern);
+        for (String zodis : galimiVariantai) {
+            Matcher m = regexPattern
+                    .matcher(zodis);
+            while (m.find()) {
+                atrinktiZodziai.add(m.group());
+            }
+        }
+
+        boolean rasta = false;
+        String apkarpytasZodis;
+        for (String zodis : atrinktiZodziai) {
+            apkarpytasZodis = PasalintiBesikartojanciasRaides(zodis);
+            for (char raide : apkarpytasZodis.toCharArray()) {
+                rasta = false;
+                if (!atspetos_raides.contains(raide)) {
+                    for (RaidesKiekis rk : RKlistas) {
+                        if (rk.raide == raide) {
+                            rk.kiekis++;
+                            rasta = true;
+                            break;
+                        }
+                    }
+                    if (!rasta) {
+                        RKlistas.add(new RaidesKiekis(raide, 1));
+                    }
+                }
+            }
+        }
+
+        galimiVariantai = atrinktiZodziai;
+        char spejamaRaide = AtsitiktinisPagalSvertus(RKlistas);
+        return spejamaRaide;
     }
 
     private String panaikintiTarpus(String tekstas) {
@@ -174,7 +229,7 @@ public class Speliotojas {
         KreiptisDuombazen(atnaujint);
     }
 
-    private Character AtsitiktinisPagalSvertus(ArrayList<RaidesKiekis> rkl) {
+    private Character AtsitiktinisPagalSvertus(List<RaidesKiekis> rkl) {
         int temp = 0;
         for (RaidesKiekis rk : rkl) {
             temp += rk.kiekis;
