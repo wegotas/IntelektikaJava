@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.microsoft.sqlserver.jdbc.*;  
+import com.microsoft.sqlserver.jdbc.*;
 
 /**
  *
@@ -27,13 +27,19 @@ public class Speliotojas {
     private ArrayList<Character> neatspetos_raides;
     private String spejamasZodis;
     private ArrayList<String> galimiVariantai;
-    
+
     static Connection conn;
-/*
+
+    /*
     public Speliotojas() {
     }*/
 
-    private ResultSet KreiptisDuombazen(String uzklausa){
+    private ResultSet KreiptisDuombazen(String uzklausa) {
+        
+        if(atspetos_raides.size()+neatspetos_raides.size() > 6)
+        {
+            int a = 10;
+        }
         try {
             conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
         } catch (SQLException ex) {
@@ -47,14 +53,16 @@ public class Speliotojas {
         } catch (SQLException ex) {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return rs;
     }
-    
+
     public void Pazadinti(String zodis) {
-        spejamasZodis = zodis;   
+        atspetos_raides = new ArrayList<Character>();
+        neatspetos_raides = new ArrayList<Character>();
+        spejamasZodis = zodis;
         galimiVariantai = new ArrayList<String>();
-        ResultSet rs = KreiptisDuombazen( "exec GautZodziusPagalZodzioIlgi " + spejamasZodis.length());
+        ResultSet rs = KreiptisDuombazen("exec GautZodziusPagalZodzioIlgi " + spejamasZodis.length());
         try {
             while (rs.next()) {
                 galimiVariantai.add(rs.getString("Zodis"));
@@ -66,8 +74,6 @@ public class Speliotojas {
         taisykleNr1 = true;
         taisykleNr2 = true;
         taisykleNr3 = true;
-        atspetos_raides = new ArrayList<Character>();
-        neatspetos_raides = new ArrayList<Character>();
     }
 
     /**
@@ -109,12 +115,11 @@ public class Speliotojas {
     }
 
     private Character TopRaide() {
-        String gautRaide = "exec GautiTopNesikartojanciaRaide N'" + GautBandytosRaides()+"'";
+        String gautRaide = "exec GautiTopNesikartojanciaRaide N'" + GautBandytosRaides() + "'";
         ResultSet rs = KreiptisDuombazen(gautRaide);
         Character raide = '*';
         try {
-            while(rs.next())
-            {
+            while (rs.next()) {
                 raide = rs.getString("Raide").charAt(0);
             }
             conn.close();
@@ -128,14 +133,12 @@ public class Speliotojas {
      * Tuščias metodas (in-development)
      */
     private char TopXRaidziu() {
-        String gautRaides = "exec GautTopPagalKieki "+ (neatspetos_raides.size()+1) +", N'" + GautBandytosRaides() + "'";
+        String gautRaides = "exec GautTopPagalKieki " + (neatspetos_raides.size() + 1) + ", N'" + GautBandytosRaides() + "'";
         ResultSet rs = KreiptisDuombazen(gautRaides);
         ArrayList<RaidesKiekis> raidziuKiekioListas = new ArrayList<RaidesKiekis>();
         try {
-            while(rs.next())
-            {
-                raidziuKiekioListas.add( new RaidesKiekis(rs.getString("Raide").charAt(0), Integer.parseInt(rs.getString("Kiekis"))));
-                //raide = rs.getString("Raide").charAt(0);
+            while (rs.next()) {
+                raidziuKiekioListas.add(new RaidesKiekis(rs.getString("Raide").charAt(0), Integer.parseInt(rs.getString("Kiekis"))));
             }
             conn.close();
         } catch (SQLException ex) {
