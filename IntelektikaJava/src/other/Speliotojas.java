@@ -28,14 +28,14 @@ public class Speliotojas {
     private String spejamasZodis;
     private ArrayList<String> galimiVariantai;
     
-    Connection conn;
+    static Connection conn;
 /*
     public Speliotojas() {
     }*/
 
-    public ResultSet KreiptisDuombazen(String uzklausa){
+    private ResultSet KreiptisDuombazen(String uzklausa){
         try {
-            this.conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
+            conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
         } catch (SQLException ex) {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -51,14 +51,10 @@ public class Speliotojas {
         return rs;
     }
     
-    /**
-     * Neuzbaigtas pustustis metodas (in-development)
-     */
-    
     public void Pazadinti(String zodis) {
         spejamasZodis = zodis;   
         galimiVariantai = new ArrayList<String>();
-        ResultSet rs = KreiptisDuombazen("select * from Zodziai");
+        ResultSet rs = KreiptisDuombazen( "exec GautZodziusPagalZodzioIlgi " + spejamasZodis.length());
         try {
             while (rs.next()) {
                 galimiVariantai.add(rs.getString("Zodis"));
@@ -97,38 +93,42 @@ public class Speliotojas {
      * Tuščias metodas (in-development)
      */
     public Character SpekRaide() {
-        return ' ';
+        return TopRaide();
     }
 
-    /**
-     * Sitas metodas gali ir neveikti (in-development)
-     */
     private String GautBandytosRaides() {
         String bandytosRaides = "";
-        ArrayList<Character> bandytuSarasas = new ArrayList<Character>();
         for (Character c : atspetos_raides) {
-            bandytuSarasas.add(c);
+            bandytosRaides += c;
         }
         for (Character c : neatspetos_raides) {
-            bandytuSarasas.add(c);
+            bandytosRaides += c;
         }
-        if (bandytuSarasas.isEmpty()) {
-            return "' '";
-        }
-        return bandytuSarasas.toString().replace(", ", "");
+        return bandytosRaides;
     }
 
-    /**
-     * Tuščias metodas (in-development)
-     */
-    private char TopRaide() {
-        return ' ';
+    private Character TopRaide() {
+        String gautRaide = "exec GautiTopNesikartojanciaRaide N'" + GautBandytosRaides()+"'";
+        ResultSet rs = KreiptisDuombazen(gautRaide);
+        String stringas = " ";
+        Character raide = ' ';
+        try {
+            while(rs.next())
+            {
+                raide = rs.getString("Raide").charAt(0);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return raide;
     }
 
     /**
      * Tuščias metodas (in-development)
      */
     private char TopXRaidziu() {
+        
         return ' ';
     }
 
@@ -156,11 +156,11 @@ public class Speliotojas {
         return " ";
     }
 
-    public static void GautAtsakyma(boolean pasisekimas, String spejamasZodis) {
+    public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) {
         String irasytZodi = "exec IterptZodiIrSekme " + pasisekimas + ", N'" + spejamasZodis + "'";
         String atnaujint = "exec AtnaujintiKiekius";
-        //KreiptisDuombazen(irasytZodi);
-        //KreiptisDuombazen(atnaujint);
+        KreiptisDuombazen(irasytZodi);
+        KreiptisDuombazen(atnaujint);
     }
 
     private Character AtsitiktinisPagalSvertus(ArrayList<RaidesKiekis> rkl) {
