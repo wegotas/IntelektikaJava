@@ -93,7 +93,8 @@ public class Speliotojas {
      * Tuščias metodas (in-development)
      */
     public Character SpekRaide() {
-        return TopRaide();
+        //return TopRaide();
+        return TopXRaidziu();
     }
 
     private String GautBandytosRaides() {
@@ -110,8 +111,7 @@ public class Speliotojas {
     private Character TopRaide() {
         String gautRaide = "exec GautiTopNesikartojanciaRaide N'" + GautBandytosRaides()+"'";
         ResultSet rs = KreiptisDuombazen(gautRaide);
-        String stringas = " ";
-        Character raide = ' ';
+        Character raide = '*';
         try {
             while(rs.next())
             {
@@ -128,8 +128,21 @@ public class Speliotojas {
      * Tuščias metodas (in-development)
      */
     private char TopXRaidziu() {
-        
-        return ' ';
+        String gautRaides = "exec GautTopPagalKieki "+ (neatspetos_raides.size()+1) +", N'" + GautBandytosRaides() + "'";
+        ResultSet rs = KreiptisDuombazen(gautRaides);
+        ArrayList<RaidesKiekis> raidziuKiekioListas = new ArrayList<RaidesKiekis>();
+        try {
+            while(rs.next())
+            {
+                raidziuKiekioListas.add( new RaidesKiekis(rs.getString("Raide").charAt(0), Integer.parseInt(rs.getString("Kiekis"))));
+                //raide = rs.getString("Raide").charAt(0);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Character spejamaRaide = AtsitiktinisPagalSvertus(raidziuKiekioListas);
+        return spejamaRaide;
     }
 
     /**
