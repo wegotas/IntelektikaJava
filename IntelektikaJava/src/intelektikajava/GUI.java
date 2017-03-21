@@ -39,7 +39,7 @@ public class GUI extends javax.swing.JFrame {
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             System.out.println("Veikia gijos");
             //Thread.sleep(100);
-        }        
+        }
     }
 
     /**

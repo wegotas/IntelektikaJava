@@ -68,7 +68,7 @@ public class Zodis{
     
     public boolean ArAtspejoZodi()
     {
-        if(zodis == pasleptasZodis)
+        if(zodis.equals(pasleptasZodis))
         {
             return true;
         }

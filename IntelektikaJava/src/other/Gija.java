@@ -27,10 +27,10 @@ public class Gija implements Runnable {
     public void run() {
         try {
             GUI.pradeti(zodis);
+            stop();
         } catch (InterruptedException ex) {
             Logger.getLogger(Gija.class.getName()).log(Level.SEVERE, null, ex);
         }
-        stop();
     }
     
      public void stop() {
