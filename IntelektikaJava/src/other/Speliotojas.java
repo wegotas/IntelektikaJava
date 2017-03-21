@@ -35,11 +35,6 @@ public class Speliotojas {
     }*/
 
     private ResultSet KreiptisDuombazen(String uzklausa) {
-        
-        if(atspetos_raides.size()+neatspetos_raides.size() > 6)
-        {
-            int a = 10;
-        }
         try {
             conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
         } catch (SQLException ex) {
