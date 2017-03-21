@@ -27,15 +27,10 @@ public class Gija implements Runnable {
     public void run() {
         try {
             GUI.pradeti(zodis);
-            /*
-            while (GUI.zaidimas)
-            {
-            GUI.speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
-            System.out.println("Veikia gijos");
-            }*/
         } catch (InterruptedException ex) {
             Logger.getLogger(Gija.class.getName()).log(Level.SEVERE, null, ex);
         }
+        stop();
     }
     
      public void stop() {

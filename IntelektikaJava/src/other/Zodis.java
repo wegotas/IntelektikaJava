@@ -31,7 +31,7 @@ public class Zodis{
         pasleptasZodis = "";
         for(Character c: zodis.toCharArray()){
             pasleptasZodis+="_";
-            pasleptoZodzioRaidziuSarasas.add(c);
+            pasleptoZodzioRaidziuSarasas.add('_');
         }
         int a = 10;
     }
@@ -44,10 +44,9 @@ public class Zodis{
             {
                 pasleptoZodzioRaidziuSarasas.set(i, spejimas);
                 atspejo = true;
-                Konvertavimas();
             }
         }
-        int a = 10;
+        Konvertavimas();
         return atspejo;
     }
     

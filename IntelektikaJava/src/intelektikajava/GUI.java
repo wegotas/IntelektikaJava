@@ -38,7 +38,7 @@ public class GUI extends javax.swing.JFrame {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             System.out.println("Veikia gijos");
-            Thread.sleep(100);
+            //Thread.sleep(100);
         }        
     }
 
@@ -226,8 +226,8 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException{
-        
         busena = 0;
+        animacija();
         Thread.sleep(500);
         if (!sustabdyta)
             {
