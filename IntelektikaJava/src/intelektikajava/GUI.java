@@ -222,10 +222,6 @@ public class GUI extends javax.swing.JFrame {
                 
         //jLabel5.setVisible(false);    
         
-//        ImageIcon Zzz = new ImageIcon("../slamstas/Zzz.gif");
-//        Image Z = Zzz.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-//        jLabel5.setIcon(new ImageIcon(Z));
-        //jLabel5.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException{
@@ -307,34 +303,35 @@ public class GUI extends javax.swing.JFrame {
         {
             if (busena == 0) //galvoja
             {
-                ImageIcon imgIcon = new ImageIcon("../slamstas/ajax-loader.gif");
-                //Image img = imgIcon.getImage().getScaledInstance(42, 42, Image.SCALE_SMOOTH);
+                jLabel4.setVisible(true);
+                ImageIcon imgIcon = new ImageIcon("../slamstas/load.gif");
                 jLabel4.setIcon(imgIcon);
-                //jLabel4.setVisible(false);
                 
                 ImageIcon homerThinking = new ImageIcon("../slamstas/homer_simpson_thinking.png");
-                Image homerDrinking = homerThinking.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                Image homerDrinking = homerThinking.getImage().getScaledInstance(130, 180, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerDrinking));
-                //jLabel5.setVisible(false);
             }
             else if (busena == 1) //atspejo
-            {        
-                ImageIcon homerWasRight = new ImageIcon("../slamstas/Homer_simpsonwoohooo.gif");
-                Image homerWoohoo = homerWasRight.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                jLabel5.setIcon(new ImageIcon(homerWoohoo));
-                //jLabel5.setVisible(false);
+            { 
+                jLabel4.setVisible(false);       
+                ImageIcon homerWasRight = new ImageIcon("../slamstas/woohoo.gif");
+                jLabel5.setIcon(homerWasRight);
             }
             else if (busena == 2) //neatspejo
             {
+                jLabel4.setVisible(false);
                 ImageIcon homerWasWrong = new ImageIcon("../slamstas/Homer_simpsondoh.png");
-                Image homerDoh = homerWasWrong.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                Image homerDoh = homerWasWrong.getImage().getScaledInstance(130, 153, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerDoh));
                 //jLabel5.setVisible(false);
             }
             else //laukia
-            {                
+            {        
+                jLabel4.setVisible(true); 
+                ImageIcon Zzz = new ImageIcon("../slamstas/zz.gif");
+                jLabel4.setIcon(Zzz);    
                 ImageIcon homerHasDoneHisJob = new ImageIcon("../slamstas/sleeping.png");
-                Image homerIsSleeping = homerHasDoneHisJob.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                Image homerIsSleeping = homerHasDoneHisJob.getImage().getScaledInstance(200, 110, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerIsSleeping));
             }
         }
