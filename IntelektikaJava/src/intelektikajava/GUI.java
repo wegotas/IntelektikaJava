@@ -12,6 +12,9 @@ import javax.swing.ImageIcon;
 import java.awt.*;
 import java.lang.reflect.*;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,7 +40,6 @@ public class GUI extends javax.swing.JFrame {
         {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
-            System.out.println("Veikia gijos");
             //Thread.sleep(100);
         }
     }
@@ -236,6 +238,7 @@ public class GUI extends javax.swing.JFrame {
                 {
                       
                     jTextField2.setText(zodis.Atvaizdavimas());
+                    System.out.println("spejimas: "+spejimas);
                     //output for log
                     if (!zodis.ArAtspejoZodi())
                     {
@@ -245,12 +248,13 @@ public class GUI extends javax.swing.JFrame {
                     }
                     else //zaidimas baigtas, AI laimejo
                     {
+                        System.out.println("laimejo");
                         //output for log
                         busena = 3;
                         animacija();
                         zaidimas = false;
                         jButton1.setText("Pradėti");
-                        speliotojas.GautAtsakyma(true, zodis.GautiZodi());
+                        perduotAtsakyma(true, zodis.GautiZodi());
                         //ideti animacija, ar kaip kitaip atvaizduoti pergale
                     }
                 }
@@ -258,6 +262,7 @@ public class GUI extends javax.swing.JFrame {
                 {
                     gyvybes--;
                     jLabel3.setText(Integer.toString(gyvybes));
+                    System.out.println("spejimas: "+spejimas);
                     //output for log
                     if (gyvybes != 0) 
                     {
@@ -266,13 +271,14 @@ public class GUI extends javax.swing.JFrame {
                         speliotojas.RaidesAtspejimoSekme(false, spejimas);
                     }
                     else //zaidimas baigtas - AI pralaimejo
-                    {
+                    {                        
+                        System.out.println("praleimejo");
                         //output for log
                         busena = 3;
                         animacija();
                         zaidimas = false;
                         jButton1.setText("Pradėti");
-                        speliotojas.GautAtsakyma(false, zodis.GautiZodi());
+                        perduotAtsakyma(false, zodis.GautiZodi());
                         //ideti animacija, ar kaip kitaip atvaizduoti pralaimejima
                     }
                 }
@@ -285,6 +291,14 @@ public class GUI extends javax.swing.JFrame {
                 animacija();
                 zaidimas = false;
             }
+    }
+    
+    private static void perduotAtsakyma(boolean pasisekimas, String zodis){
+        try {
+            speliotojas.GautAtsakyma(pasisekimas, zodis);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private static void animacija()

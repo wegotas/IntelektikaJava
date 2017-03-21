@@ -39,10 +39,10 @@ public class Speliotojas {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
         Statement st;
-        ResultSet rs = null;
+        //ResultSet rs = null;
         try {
             st = conn.createStatement();
-            rs = st.executeQuery(uzklausa);
+            st.execute(uzklausa);
         } catch (SQLException ex) {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -239,11 +239,13 @@ public class Speliotojas {
         return " ";
     }
 
-    public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) {
+    public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) throws SQLException {
         String irasytZodi = "exec IterptZodiIrSekme " + pasisekimas + ", N'" + spejamasZodis + "'";
         String atnaujint = "exec AtnaujintiKiekius";
         KreiptisDuombazenBegrazinimo(irasytZodi);
+        conn.close();
         KreiptisDuombazenBegrazinimo(atnaujint);
+        conn.close();
     }
 
     private Character AtsitiktinisPagalSvertus(List<RaidesKiekis> rkl) {
