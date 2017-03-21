@@ -38,7 +38,7 @@ public class GUI extends javax.swing.JFrame {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             System.out.println("Veikia gijos");
-            Thread.sleep(100);
+            //Thread.sleep(100);
         }        
     }
 
@@ -208,7 +208,7 @@ public class GUI extends javax.swing.JFrame {
 		zaidimas = true;
 		gyvybes = 6;
 		jLabel3.setText(Integer.toString(gyvybes));		
-                speliotojas.Pazadinti(jButton1.getText());
+                speliotojas.Pazadinti(zodis.pasleptasZodis);
                 gija.start(zodis);
                 //Task zaisti = new Task(() => pradeti(zodis));
 		//Thread.Sleep(50);
@@ -226,8 +226,8 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException{
-        
         busena = 0;
+        animacija();
         Thread.sleep(500);
         if (!sustabdyta)
             {
@@ -249,7 +249,7 @@ public class GUI extends javax.swing.JFrame {
                         animacija();
                         zaidimas = false;
                         jButton1.setText("Pradėti");
-                        Speliotojas.GautAtsakyma(true, zodis.GautiZodi());
+                        speliotojas.GautAtsakyma(true, zodis.GautiZodi());
                         //ideti animacija, ar kaip kitaip atvaizduoti pergale
                     }
                 }
@@ -272,7 +272,7 @@ public class GUI extends javax.swing.JFrame {
                         animacija();
                         zaidimas = false;
                         jButton1.setText("Pradėti");
-                        Speliotojas.GautAtsakyma(false, zodis.GautiZodi());
+                        speliotojas.GautAtsakyma(false, zodis.GautiZodi());
                         //ideti animacija, ar kaip kitaip atvaizduoti pralaimejima
                     }
                 }
