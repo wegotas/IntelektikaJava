@@ -33,19 +33,21 @@ public class Zodis{
             pasleptasZodis+="_";
             pasleptoZodzioRaidziuSarasas.add(c);
         }
+        int a = 10;
     }
     
     public boolean Spejimas(Character spejimas){
         boolean atspejo = false;
         for(int i =0;i<zodis.length();i++)
         {
-            if(zodis.toCharArray()[i] == spejimas)
+            if(zodis.charAt(i) == spejimas)
             {
                 pasleptoZodzioRaidziuSarasas.set(i, spejimas);
                 atspejo = true;
+                Konvertavimas();
             }
         }
-        Konvertavimas();
+        int a = 10;
         return atspejo;
     }
     
