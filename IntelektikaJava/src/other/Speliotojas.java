@@ -31,7 +31,24 @@ public class Speliotojas {
     private List<String> galimiVariantai;
 
     static Connection conn;
-
+    
+     private void KreiptisDuombazenBegrazinimo(String uzklausa) {
+         try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Statement st;
+        //ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            st.execute(uzklausa);
+        } catch (SQLException ex) {
+            Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
+    
+    
     /*
     public Speliotojas() {
     }*/
@@ -225,9 +242,9 @@ public class Speliotojas {
     public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) throws SQLException {
         String irasytZodi = "exec IterptZodiIrSekme " + pasisekimas + ", N'" + spejamasZodis + "'";
         String atnaujint = "exec AtnaujintiKiekius";
-        KreiptisDuombazen(irasytZodi);
+        KreiptisDuombazenBegrazinimo(irasytZodi);
         conn.close();
-        KreiptisDuombazen(atnaujint);
+        KreiptisDuombazenBegrazinimo(atnaujint);
         conn.close();
     }
 
