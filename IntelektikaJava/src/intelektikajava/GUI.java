@@ -22,7 +22,7 @@ public class GUI extends javax.swing.JFrame {
     
     static Zodis zodis;
     public static Speliotojas speliotojas = new Speliotojas();
-    Gija gija = new Gija();
+    Gija gija = new Gija();;
     
     /**
      * Creates new form GUI
@@ -200,6 +200,7 @@ public class GUI extends javax.swing.JFrame {
         {
             if(tikrintiZodi(jTextField1.getText()) && jTextField1.getText().length() > 1) //input apribojimai
             {
+                gija = new Gija();
 		jButton1.setText("Atšaukti");
 		sustabdyta = false;
                 //padaryti kazka su animacijom
@@ -266,7 +267,6 @@ public class GUI extends javax.swing.JFrame {
                     }
                     else //zaidimas baigtas - AI pralaimejo
                     {
-                        
                         //output for log
                         busena = 3;
                         animacija();
