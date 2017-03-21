@@ -42,7 +42,7 @@ public class Speliotojas {
         ResultSet rs = null;
         try {
             st = conn.createStatement();
-            st.executeQuery(uzklausa);
+            rs = st.executeQuery(uzklausa);
         } catch (SQLException ex) {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
