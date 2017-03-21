@@ -222,11 +222,13 @@ public class Speliotojas {
         return " ";
     }
 
-    public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) {
+    public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) throws SQLException {
         String irasytZodi = "exec IterptZodiIrSekme " + pasisekimas + ", N'" + spejamasZodis + "'";
         String atnaujint = "exec AtnaujintiKiekius";
         KreiptisDuombazen(irasytZodi);
+        conn.close();
         KreiptisDuombazen(atnaujint);
+        conn.close();
     }
 
     private Character AtsitiktinisPagalSvertus(List<RaidesKiekis> rkl) {
