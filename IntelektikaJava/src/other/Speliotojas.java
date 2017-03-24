@@ -218,6 +218,15 @@ public class Speliotojas {
         }
 
         galimiVariantai = atrinktiZodziai;
+//        List<RaidesKiekis> RKlistas2 = new ArrayList<RaidesKiekis>();
+//        for(int i=0;i<=neatspetos_raides.size();i++)
+//        {
+//            if(RKlistas.size()<i)
+//            {
+//                break;
+//            }
+//            RKlistas2.add(RKlistas.get(i));
+//        }
         char spejamaRaide = AtsitiktinisPagalSvertus(RKlistas);
         return spejamaRaide;
     }

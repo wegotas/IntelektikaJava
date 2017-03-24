@@ -24,6 +24,9 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -35,9 +38,10 @@ public class GUI extends javax.swing.JFrame {
     public static Speliotojas speliotojas = new Speliotojas();
     Gija gija = new Gija();
 
-    static Clip clip2;
-    static AudioInputStream atspejo;
-    static AudioInputStream neatspejo;
+    static Clip clip;
+    static File atspejoF;
+    static File neatspejoF;
+    JPanel panele = new JPanel();
 
     /**
      * Creates new form GUI
@@ -47,21 +51,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(JLabel.CENTER);
         jLabel4.setText("");
         jLabel5.setText("");
-
-        try {
-            
-            clip2 = AudioSystem.getClip();
-            try {
-                atspejo = AudioSystem.getAudioInputStream(new File("C:\\Users\\Wegis\\Documents\\NetBeansProjects\\IntelektikaJava\\slamstas\\woohoo.wav"));
-                neatspejo = AudioSystem.getAudioInputStream(new File("C:\\Users\\Wegis\\Documents\\NetBeansProjects\\IntelektikaJava\\slamstas\\Doh.wav"));
-            } catch (UnsupportedAudioFileException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+           
+        atspejoF = new File("../slamstas/woohoo.wav");
+        neatspejoF = new File("../slamstas/Doh.wav");
     }
 
     public static void pradeti(Zodis zodis) throws InterruptedException {
@@ -92,6 +84,8 @@ public class GUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -141,22 +135,30 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(0, 46, Short.MAX_VALUE))
         );
 
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(148, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
@@ -164,10 +166,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +186,9 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57)))
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -256,13 +257,14 @@ public class GUI extends javax.swing.JFrame {
                 System.out.println("spejimas: " + spejimas);
                 //output for log
                 if (!zodis.ArAtspejoZodi()) {
+                    jTextArea2.append("atspėjo: " + spejimas +"\n");
                     busena = 1;
                     animacija();
                     speliotojas.RaidesAtspejimoSekme(true, spejimas);
                 } else //zaidimas baigtas, AI laimejo
                 {
-                    System.out.println("laimejo");
-                    //output for log
+                    jTextArea2.append("atspėjo: " + spejimas +"\n");
+                    jTextArea2.append("AI laimėjo! \n");
                     busena = 3;
                     animacija();
                     zaidimas = false;
@@ -273,16 +275,15 @@ public class GUI extends javax.swing.JFrame {
             } else {
                 gyvybes--;
                 jLabel3.setText(Integer.toString(gyvybes));
-                System.out.println("spejimas: " + spejimas);
-                //output for log
+                jTextArea2.append("neatspėjo: " + spejimas +"\n");
                 if (gyvybes != 0) {
                     busena = 2;
                     animacija();
                     speliotojas.RaidesAtspejimoSekme(false, spejimas);
                 } else //zaidimas baigtas - AI pralaimejo
                 {
-                    System.out.println("praleimejo");
-                    //output for log
+                    jTextArea2.append("neatspėjo: " + spejimas +"\n");
+                    jTextArea2.append("AI pralaimėjo! \n");
                     busena = 3;
                     animacija();
                     zaidimas = false;
@@ -309,8 +310,13 @@ public class GUI extends javax.swing.JFrame {
     }
 
     private static void animacija() {
+           
         try {            
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        try {            
             if (busena == 0) //galvoja
             {
                 jLabel4.setVisible(true);
@@ -326,8 +332,8 @@ public class GUI extends javax.swing.JFrame {
                 ImageIcon homerWasRight = new ImageIcon("../slamstas/woohoo.gif");
                 jLabel5.setIcon(homerWasRight);
 
-                clip.open(atspejo);
-                clip.start();       
+                clip.open(AudioSystem.getAudioInputStream(atspejoF));
+                clip.start();
             } else if (busena == 2) //neatspejo
             {
                 jLabel4.setVisible(false);
@@ -335,8 +341,8 @@ public class GUI extends javax.swing.JFrame {
                 Image homerDoh = homerWasWrong.getImage().getScaledInstance(141, 120, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerDoh));
 
-                clip.open(neatspejo);
-                clip.start();     
+                clip.open(AudioSystem.getAudioInputStream(neatspejoF));
+                clip.start();    
             } else //laukia
             {
                 jLabel4.setVisible(true);
@@ -391,7 +397,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -401,6 +407,8 @@ public class GUI extends javax.swing.JFrame {
     private static javax.swing.JLabel jLabel5;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane2;
+    private static javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private static javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
