@@ -198,6 +198,9 @@ public class Speliotojas {
 
         boolean rasta = false;
         String apkarpytasZodis;
+        if(atrinktiZodziai.size() == 0){
+            return '*';
+        }
         for (String zodis : atrinktiZodziai) {
             apkarpytasZodis = PasalintiBesikartojanciasRaides(zodis);
             for (char raide : apkarpytasZodis.toCharArray()) {
