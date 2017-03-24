@@ -12,9 +12,17 @@ import javax.swing.ImageIcon;
 import java.awt.*;
 import java.lang.reflect.*;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,22 +30,43 @@ import javax.swing.JOptionPane;
  * @author pgrig
  */
 public class GUI extends javax.swing.JFrame {
-    
+
     static Zodis zodis;
     public static Speliotojas speliotojas = new Speliotojas();
-    Gija gija = new Gija();;
-    
+    Gija gija = new Gija();
+
+    static Clip clip2;
+    static AudioInputStream atspejo;
+    static AudioInputStream neatspejo;
+
     /**
      * Creates new form GUI
      */
     public GUI() {
-        initComponents();        
+        initComponents();
+        jLabel5.setHorizontalTextPosition(JLabel.CENTER);
+        jLabel4.setText("");
+        jLabel5.setText("");
+
+        try {
+            
+            clip2 = AudioSystem.getClip();
+            try {
+                atspejo = AudioSystem.getAudioInputStream(new File("C:/Users/pgrig/Desktop/Java/IntelektikaJavaOK/slamstas/woohoo.wav"));
+                neatspejo = AudioSystem.getAudioInputStream(new File("C:/Users/pgrig/Desktop/Java/IntelektikaJavaOK/slamstas/Doh.wav"));
+            } catch (UnsupportedAudioFileException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-   
-    public static void pradeti(Zodis zodis) throws InterruptedException{
+
+    public static void pradeti(Zodis zodis) throws InterruptedException {
         //zaidimas = true;
-        while (zaidimas)
-        {
+        while (zaidimas) {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
             //Thread.sleep(100);
@@ -58,11 +87,11 @@ public class GUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,7 +108,10 @@ public class GUI extends javax.swing.JFrame {
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jLabel4.setText("jLabel4");
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setText("jLabel5");
+        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jButton1.setText("Pradėti");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -88,55 +120,52 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(60, 60));
 
-        jLabel5.setText("jLabel5");
+        jLabel4.setText("jLabel4");
 
-        jLabel6.setText("jLabel6");
+        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addGap(0, 26, Short.MAX_VALUE))
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addGap(0, 46, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addGap(101, 101, 101))))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addContainerGap(148, Short.MAX_VALUE)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 162, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,195 +177,176 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jButton1))
-                .addGap(65, 65, 65)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(86, 86, 86))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabel5)))
-                        .addContainerGap())))
+                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     String galimosRaides = "aąbcčdeęėfghiįyjklmnoprsštuūųvzž";
-    private Boolean tikrintiZodi(String tekstas)
-    {
+
+    private Boolean tikrintiZodi(String tekstas) {
         Boolean leista = false;
-        for(char c : tekstas.toCharArray())
-        {
+        for (char c : tekstas.toCharArray()) {
             leista = false;
-            for(char raide : galimosRaides.toCharArray())
-            {
-                if (c == raide || c == Character.toUpperCase(raide))
-                {
-                   leista = true; break;
+            for (char raide : galimosRaides.toCharArray()) {
+                if (c == raide || c == Character.toUpperCase(raide)) {
+                    leista = true;
+                    break;
                 }
             }
-            if (!leista) break;
+            if (!leista) {
+                break;
+            }
         }
         return leista;
     }
-    
+
     public static Boolean zaidimas = false;
     static Boolean sustabdyta = false;
     static int busena = 3;
     static int gyvybes;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        if(jButton1.getText().equals("Atšaukti"))
-	{
+        if (jButton1.getText().equals("Atšaukti")) {
             jButton1.setText("Pradėti");
             sustabdyta = true;
-        }
-        else
-        {
-            if(tikrintiZodi(jTextField1.getText()) && jTextField1.getText().length() > 1) //input apribojimai
+        } else {
+            if (tikrintiZodi(jTextField1.getText()) && jTextField1.getText().length() > 1) //input apribojimai
             {
                 gija = new Gija();
-		jButton1.setText("Atšaukti");
-		sustabdyta = false;
+                jButton1.setText("Atšaukti");
+                sustabdyta = false;
                 //padaryti kazka su animacijom
-		zodis = new Zodis(jTextField1.getText().toLowerCase());
-		jTextField2.setText(zodis.Atvaizdavimas());
-		zaidimas = true;
-		gyvybes = 6;
-		jLabel3.setText(Integer.toString(gyvybes));		
+                zodis = new Zodis(jTextField1.getText().toLowerCase());
+                jTextField2.setText(zodis.Atvaizdavimas());
+                zaidimas = true;
+                gyvybes = 6;
+                jLabel3.setText(Integer.toString(gyvybes));
                 speliotojas.Pazadinti(zodis.pasleptasZodis);
                 gija.start(zodis);
                 //Task zaisti = new Task(() => pradeti(zodis));
-		//Thread.Sleep(50);
-		//zaisti.Start();
+                //Thread.Sleep(50);
+                //zaisti.Start();
             }
         }
-        
-                
+
         //jLabel5.setVisible(false);    
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException{
+    private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException {
         busena = 0;
         animacija();
         Thread.sleep(500);
-        if (!sustabdyta)
-            {
-                if (zodis.Spejimas(spejimas))
+        if (!sustabdyta) {
+            if (zodis.Spejimas(spejimas)) {
+
+                jTextField2.setText(zodis.Atvaizdavimas());
+                System.out.println("spejimas: " + spejimas);
+                //output for log
+                if (!zodis.ArAtspejoZodi()) {
+                    busena = 1;
+                    animacija();
+                    speliotojas.RaidesAtspejimoSekme(true, spejimas);
+                } else //zaidimas baigtas, AI laimejo
                 {
-                      
-                    jTextField2.setText(zodis.Atvaizdavimas());
-                    System.out.println("spejimas: "+spejimas);
+                    System.out.println("laimejo");
                     //output for log
-                    if (!zodis.ArAtspejoZodi())
-                    {
-                        busena = 1;
-                        animacija();
-                        speliotojas.RaidesAtspejimoSekme(true, spejimas);
-                    }
-                    else //zaidimas baigtas, AI laimejo
-                    {
-                        System.out.println("laimejo");
-                        //output for log
-                        busena = 3;
-                        animacija();
-                        zaidimas = false;
-                        jButton1.setText("Pradėti");
-                        perduotAtsakyma(true, zodis.GautiZodi());
-                        //ideti animacija, ar kaip kitaip atvaizduoti pergale
-                    }
+                    busena = 3;
+                    animacija();
+                    zaidimas = false;
+                    jButton1.setText("Pradėti");
+                    perduotAtsakyma(true, zodis.GautiZodi());
+                    //ideti animacija, ar kaip kitaip atvaizduoti pergale
                 }
-                else
+            } else {
+                gyvybes--;
+                jLabel3.setText(Integer.toString(gyvybes));
+                System.out.println("spejimas: " + spejimas);
+                //output for log
+                if (gyvybes != 0) {
+                    busena = 2;
+                    animacija();
+                    speliotojas.RaidesAtspejimoSekme(false, spejimas);
+                } else //zaidimas baigtas - AI pralaimejo
                 {
-                    gyvybes--;
-                    jLabel3.setText(Integer.toString(gyvybes));
-                    System.out.println("spejimas: "+spejimas);
+                    System.out.println("praleimejo");
                     //output for log
-                    if (gyvybes != 0) 
-                    {
-                        busena = 2;
-                        animacija();
-                        speliotojas.RaidesAtspejimoSekme(false, spejimas);
-                    }
-                    else //zaidimas baigtas - AI pralaimejo
-                    {                        
-                        System.out.println("praleimejo");
-                        //output for log
-                        busena = 3;
-                        animacija();
-                        zaidimas = false;
-                        jButton1.setText("Pradėti");
-                        perduotAtsakyma(false, zodis.GautiZodi());
-                        //ideti animacija, ar kaip kitaip atvaizduoti pralaimejima
-                    }
+                    busena = 3;
+                    animacija();
+                    zaidimas = false;
+                    jButton1.setText("Pradėti");
+                    perduotAtsakyma(false, zodis.GautiZodi());
+                    //ideti animacija, ar kaip kitaip atvaizduoti pralaimejima
                 }
-                Thread.sleep(500);
-                //Thread.Sleep(1000);// atspejo/neatspejo animacijai isskirtas laikas
             }
-            else
-            {
-                busena = 3;
-                animacija();
-                zaidimas = false;
-            }
+            Thread.sleep(500);
+            //Thread.Sleep(1000);// atspejo/neatspejo animacijai isskirtas laikas
+        } else {
+            busena = 3;
+            animacija();
+            zaidimas = false;
+        }
     }
-    
-    private static void perduotAtsakyma(boolean pasisekimas, String zodis){
+
+    private static void perduotAtsakyma(boolean pasisekimas, String zodis) {
         try {
             speliotojas.GautAtsakyma(pasisekimas, zodis);
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private static void animacija()
-    {
-        try
-        {
+
+    private static void animacija() {
+        try {            
+            Clip clip = AudioSystem.getClip();
             if (busena == 0) //galvoja
             {
                 jLabel4.setVisible(true);
                 ImageIcon imgIcon = new ImageIcon("../slamstas/load.gif");
                 jLabel4.setIcon(imgIcon);
-                
+
                 ImageIcon homerThinking = new ImageIcon("../slamstas/homer_simpson_thinking.png");
-                Image homerDrinking = homerThinking.getImage().getScaledInstance(130, 180, Image.SCALE_SMOOTH);
+                Image homerDrinking = homerThinking.getImage().getScaledInstance(86, 120, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerDrinking));
-            }
-            else if (busena == 1) //atspejo
-            { 
-                jLabel4.setVisible(false);       
+            } else if (busena == 1) //atspejo
+            {
+                jLabel4.setVisible(false);
                 ImageIcon homerWasRight = new ImageIcon("../slamstas/woohoo.gif");
                 jLabel5.setIcon(homerWasRight);
-            }
-            else if (busena == 2) //neatspejo
+
+                clip.open(atspejo);
+                clip.start();       
+            } else if (busena == 2) //neatspejo
             {
                 jLabel4.setVisible(false);
                 ImageIcon homerWasWrong = new ImageIcon("../slamstas/Homer_simpsondoh.png");
-                Image homerDoh = homerWasWrong.getImage().getScaledInstance(130, 153, Image.SCALE_SMOOTH);
+                Image homerDoh = homerWasWrong.getImage().getScaledInstance(141, 120, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerDoh));
-                //jLabel5.setVisible(false);
-            }
-            else //laukia
-            {        
-                jLabel4.setVisible(true); 
+
+                clip.open(neatspejo);
+                clip.start();     
+            } else //laukia
+            {
+                jLabel4.setVisible(true);
                 ImageIcon Zzz = new ImageIcon("../slamstas/zz.gif");
-                jLabel4.setIcon(Zzz);    
+                jLabel4.setIcon(Zzz);
                 ImageIcon homerHasDoneHisJob = new ImageIcon("../slamstas/sleeping.png");
                 Image homerIsSleeping = homerHasDoneHisJob.getImage().getScaledInstance(200, 110, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerIsSleeping));
             }
+        } catch (Exception ex) {
         }
-        catch(Exception ex) { }                                  
-    }                                  
+    }
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
@@ -379,7 +389,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -387,8 +397,8 @@ public class GUI extends javax.swing.JFrame {
     private static javax.swing.JLabel jLabel3;
     private static javax.swing.JLabel jLabel4;
     private static javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jTextField1;
     private static javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
