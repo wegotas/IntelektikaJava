@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.microsoft.sqlserver.jdbc.*;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -198,6 +200,9 @@ public class Speliotojas {
 
         boolean rasta = false;
         String apkarpytasZodis;
+        if(atrinktiZodziai.size() == 0){
+            return '*';
+        }
         for (String zodis : atrinktiZodziai) {
             apkarpytasZodis = PasalintiBesikartojanciasRaides(zodis);
             for (char raide : apkarpytasZodis.toCharArray()) {
@@ -216,18 +221,22 @@ public class Speliotojas {
                 }
             }
         }
-
+        Collections.sort(RKlistas, (RaidesKiekis rk1,RaidesKiekis rk2) -> rk2.kiekis-rk1.kiekis);
         galimiVariantai = atrinktiZodziai;
-//        List<RaidesKiekis> RKlistas2 = new ArrayList<RaidesKiekis>();
-//        for(int i=0;i<=neatspetos_raides.size();i++)
-//        {
-//            if(RKlistas.size()<i)
-//            {
-//                break;
-//            }
-//            RKlistas2.add(RKlistas.get(i));
-//        }
-        char spejamaRaide = AtsitiktinisPagalSvertus(RKlistas);
+        List<RaidesKiekis> RKlistas2 = new ArrayList<RaidesKiekis>();
+        for(int i=0;i<=neatspetos_raides.size();i++)
+        {
+            if(RKlistas.size()<=i)
+            {
+                break;
+            }
+            RKlistas2.add(RKlistas.get(i));
+        }
+        if(RKlistas2.size() == 0)
+        {
+            return '*';
+        }
+        char spejamaRaide = AtsitiktinisPagalSvertus(RKlistas2);
         return spejamaRaide;
     }
 

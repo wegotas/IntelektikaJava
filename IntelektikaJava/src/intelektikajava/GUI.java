@@ -41,7 +41,6 @@ public class GUI extends javax.swing.JFrame {
     static Clip clip;
     static File atspejoF;
     static File neatspejoF;
-    JPanel panele = new JPanel();
 
     /**
      * Creates new form GUI
@@ -51,7 +50,8 @@ public class GUI extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(JLabel.CENTER);
         jLabel4.setText("");
         jLabel5.setText("");
-           
+        jScrollPane2.setVisible(false);
+        
         atspejoF = new File("../slamstas/woohoo.wav");
         neatspejoF = new File("../slamstas/Doh.wav");
     }
@@ -84,6 +84,8 @@ public class GUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
 
@@ -135,9 +137,24 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(0, 46, Short.MAX_VALUE))
         );
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jToggleButton1.setText("Atidaryti logą");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 180, 30));
+
+        jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
+        jTextArea2.setPreferredSize(null);
         jScrollPane2.setViewportView(jTextArea2);
+        jTextArea2.setLineWrap(true);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 180, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,8 +172,8 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,17 +195,17 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)))
+                        .addGap(51, 51, 51)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -254,8 +271,7 @@ public class GUI extends javax.swing.JFrame {
             if (zodis.Spejimas(spejimas)) {
 
                 jTextField2.setText(zodis.Atvaizdavimas());
-                System.out.println("spejimas: " + spejimas);
-                //output for log
+                jTextArea2.append("atspėjo: " + spejimas +"\n");
                 if (!zodis.ArAtspejoZodi()) {
                     jTextArea2.append("atspėjo: " + spejimas +"\n");
                     busena = 1;
@@ -263,7 +279,6 @@ public class GUI extends javax.swing.JFrame {
                     speliotojas.RaidesAtspejimoSekme(true, spejimas);
                 } else //zaidimas baigtas, AI laimejo
                 {
-                    jTextArea2.append("atspėjo: " + spejimas +"\n");
                     jTextArea2.append("AI laimėjo! \n");
                     busena = 3;
                     animacija();
@@ -282,7 +297,6 @@ public class GUI extends javax.swing.JFrame {
                     speliotojas.RaidesAtspejimoSekme(false, spejimas);
                 } else //zaidimas baigtas - AI pralaimejo
                 {
-                    jTextArea2.append("neatspėjo: " + spejimas +"\n");
                     jTextArea2.append("AI pralaimėjo! \n");
                     busena = 3;
                     animacija();
@@ -363,6 +377,21 @@ public class GUI extends javax.swing.JFrame {
         System.err.println("formWindowClosing");
     }//GEN-LAST:event_formWindowClosing
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        if(jToggleButton1.getText().equals("Atidaryti logą")){
+            jScrollPane2.setVisible(true);
+            jToggleButton1.setText("Uždaryti logą");
+            jToggleButton1.setLayout(null);
+            jToggleButton1.setBounds(0, 10, 180, 30);
+        }
+        else{
+            jScrollPane2.setVisible(false);
+            jToggleButton1.setText("Atidaryti logą");
+            jToggleButton1.setLayout(null);
+            jToggleButton1.setBounds(0, 110, 180, 30);
+        }
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -406,10 +435,12 @@ public class GUI extends javax.swing.JFrame {
     private static javax.swing.JLabel jLabel4;
     private static javax.swing.JLabel jLabel5;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private static javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private static javax.swing.JTextField jTextField2;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
