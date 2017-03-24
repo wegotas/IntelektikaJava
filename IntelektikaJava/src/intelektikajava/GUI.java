@@ -61,7 +61,7 @@ public class GUI extends javax.swing.JFrame {
         while (zaidimas) {
             speliotojas.GautiSpejamaZodi(zodis.pasleptasZodis);
             apdorojamasSpejimas(zodis, speliotojas.SpekRaide());
-            //Thread.sleep(100);
+            //Thread.sleep(1000);
         }
     }
 
