@@ -35,9 +35,9 @@ public class GUI extends javax.swing.JFrame {
     public static Speliotojas speliotojas = new Speliotojas();
     Gija gija = new Gija();
 
-    static Clip clip2;
-    static AudioInputStream atspejo;
-    static AudioInputStream neatspejo;
+    static Clip clip;
+    static File atspejoF;
+    static File neatspejoF;
 
     /**
      * Creates new form GUI
@@ -47,21 +47,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(JLabel.CENTER);
         jLabel4.setText("");
         jLabel5.setText("");
-
-        try {
-            
-            clip2 = AudioSystem.getClip();
-            try {
-                atspejo = AudioSystem.getAudioInputStream(new File("C:/Users/pgrig/Desktop/Java/IntelektikaJavaOK/slamstas/woohoo.wav"));
-                neatspejo = AudioSystem.getAudioInputStream(new File("C:/Users/pgrig/Desktop/Java/IntelektikaJavaOK/slamstas/Doh.wav"));
-            } catch (UnsupportedAudioFileException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+           
+        atspejoF = new File("../slamstas/woohoo.wav");
+        neatspejoF = new File("../slamstas/Doh.wav");
     }
 
     public static void pradeti(Zodis zodis) throws InterruptedException {
@@ -307,8 +295,13 @@ public class GUI extends javax.swing.JFrame {
     }
 
     private static void animacija() {
+           
         try {            
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        try {            
             if (busena == 0) //galvoja
             {
                 jLabel4.setVisible(true);
@@ -324,8 +317,8 @@ public class GUI extends javax.swing.JFrame {
                 ImageIcon homerWasRight = new ImageIcon("../slamstas/woohoo.gif");
                 jLabel5.setIcon(homerWasRight);
 
-                clip.open(atspejo);
-                clip.start();       
+                clip.open(AudioSystem.getAudioInputStream(atspejoF));
+                clip.start();
             } else if (busena == 2) //neatspejo
             {
                 jLabel4.setVisible(false);
@@ -333,8 +326,8 @@ public class GUI extends javax.swing.JFrame {
                 Image homerDoh = homerWasWrong.getImage().getScaledInstance(141, 120, Image.SCALE_SMOOTH);
                 jLabel5.setIcon(new ImageIcon(homerDoh));
 
-                clip.open(neatspejo);
-                clip.start();     
+                clip.open(AudioSystem.getAudioInputStream(neatspejoF));
+                clip.start();    
             } else //laukia
             {
                 jLabel4.setVisible(true);
