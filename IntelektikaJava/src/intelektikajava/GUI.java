@@ -273,7 +273,6 @@ public class GUI extends javax.swing.JFrame {
                 jTextField2.setText(zodis.Atvaizdavimas());
                 jTextArea2.append("atspėjo: " + spejimas +"\n");
                 if (!zodis.ArAtspejoZodi()) {
-                    jTextArea2.append("atspėjo: " + spejimas +"\n");
                     busena = 1;
                     animacija();
                     speliotojas.RaidesAtspejimoSekme(true, spejimas);
