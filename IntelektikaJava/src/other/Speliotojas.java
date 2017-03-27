@@ -19,21 +19,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- * @param taisykleNr1 TopRaide taisyklė.
- * @param taisykleNr2 Regex taisyklė.
- * @param taisykleNr3 TopxRaide taisyklė..
- * @param atspetos_raides raidės, kurios buvo bandytos spėti ir jos sėkmingai 
- * buvo atspėtos.
- * @param neatspetos_raides raidės, kurios buvo bandytos spėti ir jos 
- * nesėkmingai buvo neatspėtos.
- * @param spejamasZodis žinomas žodis. Atspėtos raidės pateikiamos kaip raidės.
- * Dar nežinomos pozicijos pateikiamos apatiniais brūkšneliais.
- * @param galimiVariantai Regex'o taisyklei taikomas sąrašas žodžių. Jame laikomi
- * žodžiai, kurie toliau atitinka keliamas besikartojančias savybes sąlygas.
- * @param taisyklesTekstas Šiame stringe laikomas tekstas kokia taisyklė buvo 
- * taikoma, kad iš grąfinės sąsajos būtų aišku kodėl spėjama viena ar kita raidė.
- * @param conn Azure serveryje laikomos duombazės jungties eilutė.
- * 
  * @author Wegis
  */
 public class Speliotojas {
@@ -147,6 +132,8 @@ public class Speliotojas {
     /**
      * Metodas kviečiamas GUI dalyje ir grąžina vieną raidę. Jame pasirenkama
      * taisyklė ir jį vykdoma.
+     * 
+     * @return Grąžina raidę, kurį buvo parinkta pagal atitinkamą taisyklę.
      */
     public Character SpekRaide() {
         if (taisykleNr1) {

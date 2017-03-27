@@ -11,10 +11,6 @@ import java.util.logging.Logger;
 /**
  * Laiko ir vykdo savyje giją. Kad atskirtu nuo GVS'o.
  *
- * @param gija Savyje laiko backgraunde besisukančią giją. Kuri apdoroją 
- * duomenis ir atskiria apdorojimą duomenų nuo grafinės sąsajos.
- * @param zodis Dėl šito neesu įsitikinęs, bet vistiek panaudojau.
- * @author Wegis
  */
 public class Gija implements Runnable {
 
@@ -23,7 +19,7 @@ public class Gija implements Runnable {
     
     /**
      * Inicijuoja giją. ir po to paleidžia run()
-     * @param zodis 
+     * @param zodis Dėl šito neesu įsitikinęs, bet vistiek panaudojau.
      */
     public void start(Zodis zodis) {
         this.zodis = zodis;

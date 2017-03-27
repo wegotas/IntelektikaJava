@@ -8,10 +8,6 @@ package other;
 /**
  * Klasė skirta savyje saugoti raidę bei tos raidės pasikartojimų kiekį.
  * 
- * Atributai:
- * @param raide tai simbolis iš lietuviškos abecelės aibės
- * @param kiekis tai skaičius to simbolio pasikartojimo kiekis
- * 
  * @author Wegis
  */
 public class RaidesKiekis {
@@ -22,8 +18,8 @@ public class RaidesKiekis {
      * Konstruktorius priskiriantis vidinius klases atributams gaunamas 
      * reikšmes.
      * 
-     * @param raide character Priskiriama raidė.
-     * @param kiekis int Priskiriamas raidės pasikartojimų kiekis.
+     * @param raide tai simbolis iš lietuviškos abecelės aibės.
+     * @param kiekis kiekis tai skaičius(int), simbolio pasikartojimo kiekis
      */
     public RaidesKiekis(char raide, int kiekis) {
         this.raide = raide;
