@@ -7,29 +7,18 @@ package intelektikajava;
 
 import other.*;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import java.awt.*;
-import java.lang.reflect.*;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
- *
+ * Iniciacinė klasė - grafinė vartotojo sąsaja
  * @author pgrig
  */
 public class GUI extends javax.swing.JFrame {
@@ -43,7 +32,7 @@ public class GUI extends javax.swing.JFrame {
     static File neatspejoF;
 
     /**
-     * Creates new form GUI
+     * Inicijuojama forma, nuskaitomi garso failai.
      */
     public GUI() {
         initComponents();
@@ -55,7 +44,12 @@ public class GUI extends javax.swing.JFrame {
         atspejoF = new File("../slamstas/woohoo.wav");
         neatspejoF = new File("../slamstas/Doh.wav");
     }
-
+    /**
+     * Gijos zaisti vykdomas metodas, pradedamas žaidimas.
+     * Perduodamas užslėptas žodis Spėliotojui, priimamas ir apdorojamas spėjimas.
+     * @param zodis klasės Zodis objektas
+     * @throws InterruptedException susikirto gijų veikla
+     */
     public static void pradeti(Zodis zodis) throws InterruptedException {
         //zaidimas = true;
         while (zaidimas) {
@@ -213,7 +207,12 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     String galimosRaides = "aąbcčdeęėfghiįyjklmnoprsštuūųvzž";
-
+    
+    /**
+     * Tikrinamas įvestas žodis
+     * @param tekstas jTextField lauko turinys
+     * @return 
+     */
     private Boolean tikrintiZodi(String tekstas) {
         Boolean leista = false;
         for (char c : tekstas.toCharArray()) {
@@ -235,6 +234,12 @@ public class GUI extends javax.swing.JFrame {
     static Boolean sustabdyta = false;
     static int busena = 3;
     static int gyvybes;
+    
+    /**
+     * Mygtuko Pradėti/Atšaukti įvykis(event).
+     * Atnaujinami GUI laukai, kuriama ir paleidžiama gija pradedanti žaidimą.
+     * @param evt 
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         if (jButton1.getText().equals("Atšaukti")) {
@@ -264,6 +269,12 @@ public class GUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Apdorojamas spėjimas, kviečiamos animacijos, atnaujinami GUI laukai.
+     * @param zodis objektas Zodis
+     * @param spejimas spėjama raidė
+     * @throws InterruptedException 
+     */
     private static void apdorojamasSpejimas(Zodis zodis, char spejimas) throws InterruptedException {
         busena = 0;
         animacija();
@@ -316,6 +327,12 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Perduodami atributai Spėliotojui.
+     * Šis metodas kviečiamas pabaigus žaidimo raundą.
+     * @param pasisekimas boolean tipo - nurodantis ar žodis buvo atspėtas.
+     * @param zodis vartotojo įvestas žodis
+     */
     private static void perduotAtsakyma(boolean pasisekimas, String zodis) {
         try {
             speliotojas.GautAtsakyma(pasisekimas, zodis);
@@ -323,7 +340,11 @@ public class GUI extends javax.swing.JFrame {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * Pagal globalų parametrą - būsena - nustato kokią animaciją rodyti ir kokį 
+     * garso įrašą leisti.
+     */
     private static void animacija() {
            
         try {            
@@ -371,6 +392,11 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Formos uždarymo įvykis(event).
+     * Uždarant formą nutraukiamas gijos darbas.
+     * @param evt 
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         zaidimas = false;
@@ -378,6 +404,11 @@ public class GUI extends javax.swing.JFrame {
         System.err.println("formWindowClosing");
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     * Žurnalo (log) Atidaryti/Uždaryti mygtuko įvykis(event).
+     * Atidengiamas/Paslepiamas žurnalo teksto laukas (jTexrArea).
+     * @param evt 
+     */
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if(jToggleButton1.getText().equals("Atidaryti logą")){
             jScrollPane2.setVisible(true);
@@ -394,6 +425,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
+     * Paleidžiama forma
      * @param args the command line arguments
      */
     public static void main(String args[]) {
