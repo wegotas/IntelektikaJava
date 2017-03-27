@@ -19,7 +19,21 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- *
+ * @param taisykleNr1 TopRaide taisyklė.
+ * @param taisykleNr2 Regex taisyklė.
+ * @param taisykleNr3 TopxRaide taisyklė..
+ * @param atspetos_raides raidės, kurios buvo bandytos spėti ir jos sėkmingai 
+ * buvo atspėtos.
+ * @param neatspetos_raides raidės, kurios buvo bandytos spėti ir jos 
+ * nesėkmingai buvo neatspėtos.
+ * @param spejamasZodis žinomas žodis. Atspėtos raidės pateikiamos kaip raidės.
+ * Dar nežinomos pozicijos pateikiamos apatiniais brūkšneliais.
+ * @param galimiVariantai Regex'o taisyklei taikomas sąrašas žodžių. Jame laikomi
+ * žodžiai, kurie toliau atitinka keliamas besikartojančias savybes sąlygas.
+ * @param taisyklesTekstas Šiame stringe laikomas tekstas kokia taisyklė buvo 
+ * taikoma, kad iš grąfinės sąsajos būtų aišku kodėl spėjama viena ar kita raidė.
+ * @param conn Azure serveryje laikomos duombazės jungties eilutė.
+ * 
  * @author Wegis
  */
 public class Speliotojas {
@@ -31,9 +45,15 @@ public class Speliotojas {
     private List<Character> neatspetos_raides;
     private String spejamasZodis;
     private List<String> galimiVariantai;
-
+    private String taisyklesTekstas = "";
     static Connection conn;
     
+    /**
+     * Metodas procedūrom į duomenų bazę negrąžinančių reikšmių/rezultatų atgal.
+     * Tokiom kaip insert/update/delete ir pan.
+     * 
+     * @param uzklausa procedūros eilutė, kuri bus perduota duomenų bazėj.
+     */
      private void KreiptisDuombazenBegrazinimo(String uzklausa) {
          try {
             conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
@@ -41,7 +61,6 @@ public class Speliotojas {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
         Statement st;
-        //ResultSet rs = null;
         try {
             st = conn.createStatement();
             st.execute(uzklausa);
@@ -50,10 +69,12 @@ public class Speliotojas {
         }
      }
     
-    
-    /*
-    public Speliotojas() {
-    }*/
+    /**
+     * Metodas procedūrom į duomenų bazę grąžinančiom reikšmes/rezultatus atgal.
+     * 
+     * @param uzklausa procedūros eilutė, kuri bus perduota duomenų bazėj.
+     * @return Lentelė resultset tipo.
+     */
     private ResultSet KreiptisDuombazen(String uzklausa) {
         try {
             conn = DriverManager.getConnection("jdbc:sqlserver://budeliai.database.windows.net:1433;database=Zodziai.mdf;user=budelis@budeliai;password=abc1234!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
@@ -72,6 +93,16 @@ public class Speliotojas {
         return rs;
     }
 
+    /**
+     * Ištuština sąrašus atspėtų ir neatspėtų raidžių.
+     * Priskiria reikšmę naujo žodžio vidiniam kintamajam.
+     * Užpildo galimiVariantai sąrašą žodžiais, kurie atitinka besikartojančias 
+     * sąvybes.
+     * Ir nustato kad visos taisykles galima taikyti.
+     * 
+     * @param zodis priimamas žodis, kuris gaunamas kaip apatinių brūkšnelių 
+     * rinkinys, kurių kiekis atitinka žodžio ilgį.
+     */
     public void Pazadinti(String zodis) {
         atspetos_raides = new ArrayList<Character>();
         neatspetos_raides = new ArrayList<Character>();
@@ -92,7 +123,10 @@ public class Speliotojas {
     }
 
     /**
-     * Sitas metodas gali ir neveikti (in-development)
+     * Grąžina stringą, kuriame jau būna pašalintos besikartojančios raides.
+     * labas -> labs
+     * ananasas -> ans
+     * bananas -> bans
      */
     private String PasalintiBesikartojanciasRaides(String tekstas) {
         char[] chars = tekstas.toCharArray();
@@ -111,7 +145,8 @@ public class Speliotojas {
     }
 
     /**
-     * Tuščias metodas (in-development)
+     * Metodas kviečiamas GUI dalyje ir grąžina vieną raidę. Jame pasirenkama
+     * taisyklė ir jį vykdoma.
      */
     public Character SpekRaide() {
         if (taisykleNr1) {
@@ -129,6 +164,12 @@ public class Speliotojas {
         }
     }
 
+    /**
+     * Pagal sąrašus atspetų ir neatspetu raidžių sudaromas vienas stringas
+     * panaudotų raidžių.
+     * 
+     * @return stringa bandytų raidžių
+     */
     private String GautBandytosRaides() {
         String bandytosRaides = "";
         for (Character c : atspetos_raides) {
@@ -140,6 +181,12 @@ public class Speliotojas {
         return bandytosRaides;
     }
 
+    /**
+     * Įvertina pagal raides lentelę DB raides didžiausią pasikartojimų kiekį 
+     * ir grąžiną didžiausią reikšmę turinčią raidę, kurį nėra tarp bandytų 
+     * raidžių (atspėtų ir neatspėtos raidės sudėtos į vieną)
+     * @return character tipo kintamąjį, kuris yra viena raidė.
+     */
     private Character TopRaide() {
         String gautRaide = "exec GautiTopNesikartojanciaRaide N'" + GautBandytosRaides() + "'";
         ResultSet rs = KreiptisDuombazen(gautRaide);
@@ -152,11 +199,13 @@ public class Speliotojas {
         } catch (SQLException ex) {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        taisyklesTekstas = "Taikyta dažniausiai besikartojančios raidės taisyklė(TopRaide).\r\n";
         return raide;
     }
 
     /**
-     * Tuščias metodas (in-development)
+     * Įvertina vieną arba daugiau raidžių. 
+     * Grąžiną raidę iš svarstytinų atsitiktinę pagal svertus
      */
     private char TopXRaidziu() {
         String gautRaides = "exec GautTopPagalKieki " + (neatspetos_raides.size() + 1) + ", N'" + GautBandytosRaides() + "'";
@@ -171,11 +220,19 @@ public class Speliotojas {
             Logger.getLogger(Speliotojas.class.getName()).log(Level.SEVERE, null, ex);
         }
         Character spejamaRaide = AtsitiktinisPagalSvertus(raidziuKiekioListas);
+        taisyklesTekstas = "Taikyta dažniausiai besikartojančių raidžių pagal svertus taisyklė(TopXraide).\r\n";
         return spejamaRaide;
     }
 
     /**
-     * Tuščias metodas (in-development)
+     * Daroma prielaida kad vartotojo spėjamas žodis jau duomenų bazėje 
+     * egzistuoja ir spėlojama pagal duombazėj egzistuojančius žodžius ir jų 
+     * turimas sąvybes.
+     * 
+     * Pagal žodžio ilgį ir pasikartojančias savybes atrenkamą atrenkamas žodžių
+     * sąrašas o iš jo atrenkama labiausiai tikėtinas raides. Kurios atsitiktinių
+     * pagal svertus principą išrenkama viena ir jį grąžinama.
+     * @return raidė pagal besikartojančias sąvybes.
      */
     private char IeskotiZodzioSuRegex() {
         List<String> atrinktiZodziai = new ArrayList<String>();
@@ -237,9 +294,18 @@ public class Speliotojas {
             return '*';
         }
         char spejamaRaide = AtsitiktinisPagalSvertus(RKlistas2);
+        taisyklesTekstas = "Taikyta pagal besikartojančias sąvybes, dažniausiai pasitaikanti raidė(Regex).\r\n";
         return spejamaRaide;
     }
-
+    
+    /**
+     * Panaikina tarpus kurie būna po stringo išgavimo iš duombazės.
+     * "tekstas                   " -> "tekstas"
+     * "    t   e  k s   t  a  s    " -> "tekstas"
+     * 
+     * @param tekstas stringas turintis dažniausiai savo galę tarpus(space)
+     * @return tekstas be tarpų(space)
+     */
     private String panaikintiTarpus(String tekstas) {
         return tekstas.replaceAll(" ", "");
     }
@@ -252,11 +318,23 @@ public class Speliotojas {
             taisykleNr1 = false;
         }
     }
-
-    public static String iLoga() {
-        return " ";
+    
+    /**
+     * @return Tekstas kokia taisyklė yra taikoma
+     */
+    public String iLoga() {
+        return taisyklesTekstas;
     }
 
+    /**
+     * Pasibaigus žaidimui, spėtas žodis yra mėginamas išsaugoti duombazėn.
+     * Jei toks žodis yra. Tada to žodžio kartu_speta padidėja vienu vienetu.
+     * O raidžių lentelė yra perskaičiuojama.
+     * 
+     * @param pasisekimas ar pasisekė atspėti žodį
+     * @param spejamasZodis žodis, kuris buvo mėgintas spėti.
+     * @throws SQLException reikalavo, priešingu atveju nekompiliavo
+     */
     public void GautAtsakyma(boolean pasisekimas, String spejamasZodis) throws SQLException {
         String irasytZodi = "exec IterptZodiIrSekme " + pasisekimas + ", N'" + spejamasZodis + "'";
         String atnaujint = "exec AtnaujintiKiekius";
@@ -266,6 +344,18 @@ public class Speliotojas {
         conn.close();
     }
 
+    /**
+     * Jis veikia pagal principą:
+     * raidė: a kiekis: 50
+     * raidė: b kiekis: 30
+     * raidė: c kiekis: 20
+     * 
+     * Random funkcija tada turi šansus 
+     * ,kad a = 50%,b = 30%,c = 20% gavimo šansus
+     * 
+     * @param rkl RaidesKiekis objektų sąrašas.
+     * @return raidė, kuri buvo parinkta mėginti spėti.
+     */
     private Character AtsitiktinisPagalSvertus(List<RaidesKiekis> rkl) {
         int temp = 0;
         for (RaidesKiekis rk : rkl) {
@@ -288,6 +378,9 @@ public class Speliotojas {
 
     /**
      * Tuščias metodas (in-development)
+     * Taip ir nepabaigėm dėl laiko trūkumo, 
+     * dėl įgyvendinto algoritmo veikimo ilgio
+     * ir dėl įgyvendinto algoritmo netinkamo veikimo.
      */
     private char KaireDesine() {
 
@@ -296,6 +389,9 @@ public class Speliotojas {
 
     /**
      * Tuščias metodas (in-development)
+     * Taip ir nepabaigėm dėl laiko trūkumo, 
+     * dėl įgyvendinto algoritmo veikimo ilgio
+     * ir dėl įgyvendinto algoritmo netinkamo veikimo.
      */
     private char KaireDesineXRaidziu() {
 

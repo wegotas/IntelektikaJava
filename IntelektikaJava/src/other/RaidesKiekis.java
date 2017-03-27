@@ -18,7 +18,13 @@ public class RaidesKiekis {
     public char raide;
     public int kiekis;
 
-    
+    /**
+     * Konstruktorius priskiriantis vidinius klases atributams gaunamas 
+     * reikšmes.
+     * 
+     * @param raide character Priskiriama raidė.
+     * @param kiekis int Priskiriamas raidės pasikartojimų kiekis.
+     */
     public RaidesKiekis(char raide, int kiekis) {
         this.raide = raide;
         this.kiekis = kiekis;

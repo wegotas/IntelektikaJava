@@ -11,10 +11,10 @@ import java.util.List;
  * Klasė skirta būti sukurta viena, vienam spėliojimui.
  * 
  * Atributai:
- * @param  zodis žodis kuris yra žinomas ir mėginamas atspėti
- * @param pasleptasZodis žodžio, kuris yra užslėptas spėliojimo progresas.
- * @param pasleptoZodzioRaidziuSarasas pasleptas žodis, bet listo forma, 
- * naudojamas kai atverčiamos atspetos raides
+ * @param zodis String žodis kuris yra žinomas ir mėginamas atspėti
+ * @param pasleptasZodis String žodžio, kuris yra užslėptas spėliojimo progresas.
+ * @param pasleptoZodzioRaidziuSarasas ArrayList<Character> pasleptas žodis, bet
+ * listo forma, naudojamas kai atverčiamos atspetos raides
  * 
  * @author Wegis
  */
